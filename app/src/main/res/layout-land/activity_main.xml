@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.contactlist.main.MainActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/activity_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_above="@+id/owner"
+        >
+
+        <fragment
+            android:id="@+id/userListFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:name="com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListFragment"
+            android:layout_weight="1"
+            />
+        <fragment
+            android:id="@+id/userDetailFragment"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:name="com.hilfritz.bootstrap.view.contactlist.detail.UserDetailActivityFragment"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="8sp"
+        android:id="@+id/owner"
+        android:text="@string/owner"
+        android:background="@color/grey1"
+        android:textColor="@color/white"
+        android:padding="@dimen/padding_b"
+        android:layout_alignParentBottom="true"
+        />
+</RelativeLayout>
