@@ -2,7 +2,7 @@ package com.hilfritz.bootstrap.view.loading;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.net.Uri;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -12,9 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -23,16 +22,21 @@ import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import com.hilfritz.bootstrap.R;
 import com.hilfritz.bootstrap.eventbus.event.DialogEvent;
-import com.hilfritz.bootstrap.eventbus.event.SortEvent;
+import com.hilfritz.bootstrap.util.RxUtil;
 import com.hilfritz.bootstrap.util.StringUtil;
-import com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter;
-import com.squareup.otto.Subscribe;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Hilfritz Camallere on 11/11/16.
@@ -56,12 +60,21 @@ public class FullscreenLoadingDialog extends DialogFragment {
     public TextView message;
 
 
+    final int DISPLAY_TIMEOUT = 40;
+    int displayedSecondsCounter = 0;
+
+
     @BindView(R.id.rounded_img)
     SimpleDraweeView icon;
 
+
+
+    //@BindView(R.id.rounded_img)
+    //ImageView icon;
+
+
     int dialogType = 0;
-    //@Inject
-    //public GPSTracker gpsTracker;
+    private Subscription displayTimerTimeoutSubscription;
 
     /**
      * TO REMOVE THE TITLE SPACE
@@ -90,6 +103,8 @@ public class FullscreenLoadingDialog extends DialogFragment {
         ButterKnife.bind(this, view);
 
         loadDefaultLoadingGif();
+        //TURN ON THE IMAGE RENDERING FOR THE SVG ANIMATION
+        //icon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
         if (getArguments() != null) {
             String message = getArguments().getString(ARG_MESSAGE);
@@ -97,16 +112,59 @@ public class FullscreenLoadingDialog extends DialogFragment {
             int iconId = getArguments().getInt(ARG_ICONID);
             setDrawableId(iconId);
             setCancelable(getArguments().getBoolean(ARG_CANCELLABLE, true));
-
-
-
         }
+
+        displayedSecondsCounter = 0;
+        startDisplayTimeout();
 
         return view;
     }
 
+    private void startDisplayTimeout() {
+        Log.d(TAG, "startDisplayTimeout: ");
+        displayTimerTimeoutSubscription =
+                Observable
+                        .interval(1000, TimeUnit.MILLISECONDS)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<Long>() {
+                            @Override
+                            public void onCompleted() {
+                                Log.d(TAG, "onCompleted: emergency dismmiss");
+                                dismiss();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                Log.d(TAG, "onError: emergency dismmiss");
+                                e.printStackTrace();
+                                Toast.makeText(getActivity(), "Please refresh or try again.", Toast.LENGTH_SHORT).show();
+                                //dismiss();
+                            }
+
+                            @Override
+                            public void onNext(Long aLong) {
+                                Log.d(TAG, "onNext: loading displaying for "+aLong.intValue()+" seconds");
+                                if (aLong.intValue() >= DISPLAY_TIMEOUT){
+                                    Log.d(TAG, "onNext: emergency dismmiss");
+                                    dismiss();
+                                }
+                                displayedSecondsCounter = aLong.intValue();
+                            }
+                        });
+
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        Log.d(TAG, "onDismiss: ");
+
+    }
+
+
     private void loadDefaultLoadingGif() {
-        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithResourceId(R.raw.gear_gif).build();
+        ImageRequest imageRequest = ImageRequestBuilder.newBuilderWithResourceId(R.raw.loading_gif).build();
         DraweeController controller = Fresco.newDraweeControllerBuilder()
                 .setUri(imageRequest.getSourceUri())
                 .setAutoPlayAnimations(true)
@@ -114,6 +172,7 @@ public class FullscreenLoadingDialog extends DialogFragment {
         .build();
         icon.setController(controller);
     }
+
 
     @org.greenrobot.eventbus.Subscribe(threadMode = ThreadMode.MAIN)
     public void onDialogEvent(DialogEvent e) {
@@ -194,6 +253,13 @@ public class FullscreenLoadingDialog extends DialogFragment {
 
     public static final void hideLoading(){
         DialogEvent.fireEvent(DialogEvent.CLOSE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+        RxUtil.unsubscribe(displayTimerTimeoutSubscription);
     }
 
 }
