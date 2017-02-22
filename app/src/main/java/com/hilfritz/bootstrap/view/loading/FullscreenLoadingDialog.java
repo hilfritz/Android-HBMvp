@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.interfaces.DraweeController;
@@ -76,6 +75,17 @@ public class FullscreenLoadingDialog extends DialogFragment {
     int dialogType = 0;
     private Subscription displayTimerTimeoutSubscription;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
+        try {
+            EventBus.getDefault().register(this);
+        }catch (Exception e){
+            Log.d(TAG, "onCreate() eventbus registration error: "+e.getLocalizedMessage());
+        }
+    }
+
     /**
      * TO REMOVE THE TITLE SPACE
      * see http://stackoverflow.com/questions/15277460/how-to-create-a-dialogfragment-without-title
@@ -131,15 +141,15 @@ public class FullscreenLoadingDialog extends DialogFragment {
                             @Override
                             public void onCompleted() {
                                 Log.d(TAG, "onCompleted: emergency dismmiss");
-                                dismiss();
+                                dismissAllowingStateLoss();
                             }
 
                             @Override
                             public void onError(Throwable e) {
                                 Log.d(TAG, "onError: emergency dismmiss");
                                 e.printStackTrace();
-                                Toast.makeText(getActivity(), "Please refresh or try again.", Toast.LENGTH_SHORT).show();
-                                //dismiss();
+                                //Toast.makeText(getActivity(), "Please refresh or try again.", Toast.LENGTH_SHORT).show();
+                                dismissAllowingStateLoss();
                             }
 
                             @Override
@@ -147,7 +157,7 @@ public class FullscreenLoadingDialog extends DialogFragment {
                                 Log.d(TAG, "onNext: loading displaying for "+aLong.intValue()+" seconds");
                                 if (aLong.intValue() >= DISPLAY_TIMEOUT){
                                     Log.d(TAG, "onNext: emergency dismmiss");
-                                    dismiss();
+                                    dismissAllowingStateLoss();
                                 }
                                 displayedSecondsCounter = aLong.intValue();
                             }
@@ -179,7 +189,7 @@ public class FullscreenLoadingDialog extends DialogFragment {
         Log.d(TAG, "onDialogEvent: ");
         if (e.getEventType()==DialogEvent.CLOSE){
             Log.d(TAG, "onDialogEvent: closing dialog");
-            dismiss();
+            dismissAllowingStateLoss();
         }
     }
     public void setMessage(String message){
@@ -242,13 +252,13 @@ public class FullscreenLoadingDialog extends DialogFragment {
     public void onResume() {
         Log.d(TAG,"onResume: ");
         super.onResume();
-        EventBus.getDefault().register(this);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        EventBus.getDefault().unregister(this);
+        Log.d(TAG, "onPause: ");
     }
 
     public static final void hideLoading(){
@@ -259,6 +269,11 @@ public class FullscreenLoadingDialog extends DialogFragment {
     public void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
+        try {
+            EventBus.getDefault().unregister(this);
+        }catch (Exception e){
+            Log.d(TAG, "onDestroy() busprovider registration error: "+e.getLocalizedMessage());
+        }
         RxUtil.unsubscribe(displayTimerTimeoutSubscription);
     }
 
