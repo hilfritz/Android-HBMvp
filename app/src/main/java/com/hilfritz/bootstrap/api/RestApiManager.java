@@ -1,11 +1,14 @@
 package com.hilfritz.bootstrap.api;
 
 import com.hilfritz.bootstrap.api.pojo.UserWrapper;
+import com.hilfritz.bootstrap.api.pojo.places.PlacesWrapper;
 import com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,14 +25,32 @@ import rx.schedulers.Schedulers;
 public class RestApiManager {
     public static final String BASE_URL = "http://jsonplaceholder.typicode.com";
     public static final String USERS_URL = BASE_URL+"/users";
+    //public static final String PLACES_URL = "https://github.com/hilfritz/Android-HBMvp/blob/development/temp/places/places.json";
+
+    //THE URL HERE IS AFTER PASTING THE URL FROM GITHUB TO RAWGIT.COM
+    public static final String PLACES_URL = "https://rawgit.com/hilfritz/Android-HBMvp/development/temp/places/places.json";
+
     RestApiInterface api ;
     Retrofit retrofit;
 
     public RestApiManager() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+
+        okhttp3.OkHttpClient client = new okhttp3.OkHttpClient().newBuilder()
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .addInterceptor(new LoggingInterceptor())   //<<<----- EXCLUSIVE ONLY FOR THIS CLASS
+                .build();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())  //very important for RXJAVA
+
                 .build();
         api = retrofit.create(RestApiInterface.class);
 
@@ -42,6 +63,18 @@ public class RestApiManager {
                 .delay(UserListPresenter.DELAY, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 ;
     }
+
+    public Observable<PlacesWrapper> getPlacesSubscribable(){
+        return api.getPlacesObservable()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                ;
+    }
+
+    public Call<PlacesWrapper> getPlacesCall(){
+        return api.getPlacesCall();
+    }
+
 
     /**
      *
