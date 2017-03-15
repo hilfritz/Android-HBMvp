@@ -1,18 +1,17 @@
 package com.hilfritz.bootstrap.view.placelist.helper;
 
-import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.hilfritz.bootstrap.R;
-import com.hilfritz.bootstrap.api.pojo.places.PlaceList;
+import com.hilfritz.bootstrap.api.pojo.places.Place;
 import com.hilfritz.bootstrap.databinding.ListItemPlaceBinding;
+import com.hilfritz.bootstrap.view.placelist.PlaceListPresenter;
 
 import java.util.ArrayList;
 
@@ -23,11 +22,13 @@ import java.util.ArrayList;
  */
 
 public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.ViewHolder> {
-    ArrayList<PlaceList> list = new ArrayList<PlaceList>();
+    ArrayList<Place> list = new ArrayList<Place>();
     private static final String TAG = "PlaceListAdapter";
+    PlaceListPresenter presenter;
 
-    public PlaceListAdapter(ArrayList<PlaceList> list) {
+    public PlaceListAdapter(ArrayList<Place> list, PlaceListPresenter presenter) {
         this.list = list;
+        this.presenter = presenter;
     }
 
     @Override
@@ -55,8 +56,9 @@ public class PlaceListAdapter extends RecyclerView.Adapter<PlaceListAdapter.View
             super(binding.getRoot());
             this.binding = binding;
         }
-        public void bindConnection(PlaceList userWrapper){
+        public void bindConnection(Place userWrapper){
             binding.setVm(userWrapper);
+            binding.setPresenter(presenter);
         }
     }
 

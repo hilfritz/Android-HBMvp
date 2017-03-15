@@ -51,7 +51,7 @@ public class PlaceListFragment extends BaseFragment {
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(llm);
 
-        adapter = new PlaceListAdapter(presenter.getPlaceList());
+        adapter = new PlaceListAdapter(presenter.getPlace(), presenter);
         listView.setAdapter(getAdapter());
         getAdapter().notifyDataSetChanged();
 

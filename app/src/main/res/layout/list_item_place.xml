@@ -5,13 +5,17 @@
     <data>
         <variable
             name="vm"
-            type="com.hilfritz.bootstrap.api.pojo.places.PlaceList"/>
-
+            type="com.hilfritz.bootstrap.api.pojo.places.Place"/>
+        <variable
+            name="presenter"
+            type="com.hilfritz.bootstrap.view.placelist.PlaceListPresenter"/>
 
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{()->presenter.onListItemClick(vm)}"
+        >
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_width="match_parent"
             android:layout_height="200dp"
@@ -36,6 +40,9 @@
             android:layout_alignTop="@id/image"
             android:layout_above="@id/name"
             android:id="@+id/selected_indicator"
+            android:background="#99000000"
+            android:visibility="@{vm.__viewIsSelected}"
+            android:onClick="@{()->presenter.onListItemClick(vm)}"
             />
 
     </RelativeLayout>

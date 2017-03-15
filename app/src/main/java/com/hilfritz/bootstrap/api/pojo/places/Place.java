@@ -1,10 +1,12 @@
 
 package com.hilfritz.bootstrap.api.pojo.places;
 
+import android.view.View;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PlaceList {
+public class Place {
 
     @SerializedName("id")
     @Expose
@@ -16,8 +18,7 @@ public class PlaceList {
     @Expose
     private String photoUrl;
 
-
-    boolean isSelected = false;
+    public int __viewIsSelected = View.GONE;
 
 
     public String getId() {
@@ -44,11 +45,11 @@ public class PlaceList {
         this.photoUrl = photoUrl;
     }
 
-    public boolean isSelected() {
-        return isSelected;
+    public int get__viewIsSelected() {
+        return __viewIsSelected;
     }
 
-    public void setSelected(boolean selected) {
-        isSelected = selected;
+    public void set__viewIsSelected(int __viewIsSelected) {
+        this.__viewIsSelected = __viewIsSelected;
     }
 }

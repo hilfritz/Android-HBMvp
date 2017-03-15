@@ -10,14 +10,14 @@ public class PlacesWrapper {
 
     @SerializedName("place_list")
     @Expose
-    private List<PlaceList> placeList = null;
+    private List<Place> place = null;
 
-    public List<PlaceList> getPlaceList() {
-        return placeList;
+    public List<Place> getPlace() {
+        return place;
     }
 
-    public void setPlaceList(List<PlaceList> placeList) {
-        this.placeList = placeList;
+    public void setPlace(List<Place> place) {
+        this.place = place;
     }
 
 }

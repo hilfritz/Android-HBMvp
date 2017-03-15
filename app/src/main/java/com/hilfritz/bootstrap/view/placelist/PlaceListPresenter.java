@@ -1,10 +1,11 @@
 package com.hilfritz.bootstrap.view.placelist;
 
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.hilfritz.bootstrap.api.RestApiManager;
-import com.hilfritz.bootstrap.api.pojo.places.PlaceList;
+import com.hilfritz.bootstrap.api.pojo.places.Place;
 import com.hilfritz.bootstrap.api.pojo.places.PlacesWrapper;
 import com.hilfritz.bootstrap.application.MyApplication;
 import com.hilfritz.bootstrap.framework.BaseActivity;
@@ -33,7 +34,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Inject
     RestApiManager apiManager;
-    private ArrayList<PlaceList> placeList = new ArrayList<PlaceList>();
+    private ArrayList<Place> place = new ArrayList<Place>();
 
     public PlaceListPresenter(MyApplication myApplication){
         //INITIALIZE INJECTION
@@ -55,7 +56,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void __fmwk_bpi_init_new() {
         Log.d(TAG, "__fmwk_bpi_init_new: init for new activity");
-        placeList.clear();
+        place.clear();
         fragment.getAdapter().notifyDataSetChanged();
     }
 
@@ -101,9 +102,9 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                     public void onNext(PlacesWrapper placesWrapper) {
                         Log.d(TAG, "callPlaceListApi: onNext: ");
                         if (placesWrapper!=null){
-                            if (placesWrapper.getPlaceList().size()>0){
-                                getPlaceList().clear();
-                                getPlaceList().addAll(placesWrapper.getPlaceList());
+                            if (placesWrapper.getPlace().size()>0){
+                                getPlace().clear();
+                                getPlace().addAll(placesWrapper.getPlace());
                                 fragment.getAdapter().notifyDataSetChanged();
                             }
                         }
@@ -111,11 +112,25 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                 });
     }
 
-    public ArrayList<PlaceList> getPlaceList() {
-        return placeList;
+    public ArrayList<Place> getPlace() {
+        return place;
     }
 
-    public void setPlaceList(ArrayList<PlaceList> placeList) {
-        this.placeList = placeList;
+    public void setPlace(ArrayList<Place> place) {
+        this.place = place;
+    }
+
+    public void onListItemClick(Place place){
+        Log.d(TAG, "onListItemClick: ");
+        int newVisibility = View.GONE;
+        if (place.get__viewIsSelected()==View.GONE)
+            newVisibility = View.VISIBLE;
+        if (place.get__viewIsSelected()==View.VISIBLE)
+            newVisibility = View.GONE;
+
+        place.set__viewIsSelected(newVisibility);
+        final int i = getPlace().indexOf(place);
+        fragment.getAdapter().notifyItemChanged(i);
+        //fragment.getAdapter().notifyDataSetChanged();
     }
 }

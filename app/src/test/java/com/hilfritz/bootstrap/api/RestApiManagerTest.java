@@ -40,8 +40,8 @@ public class RestApiManagerTest {
             result =  placesCall.execute();
             assertNotNull(result);
             assertNotNull(result.body());
-            assertNotNull(result.body().getPlaceList());
-            assertTrue(result.body().getPlaceList().size()>0);
+            assertNotNull(result.body().getPlace());
+            assertTrue(result.body().getPlace().size()>0);
         } catch (IOException e) {
             e.printStackTrace();
         }
