@@ -8,7 +8,7 @@ import java.net.UnknownHostException;
 
 public class ExceptionUtil {
 
-    public static final boolean isNoNetworkException(Exception e){
+    public static final boolean isNoNetworkException(Throwable e){
         if (e !=null){
             if (e instanceof UnknownHostException){
                 return true;

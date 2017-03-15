@@ -3,6 +3,7 @@ package com.hilfritz.bootstrap.dagger2.module;
 import com.hilfritz.bootstrap.application.MyApplication;
 import com.hilfritz.bootstrap.view.contactlist.detail.UserDetailFragmentPresenter;
 import com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter;
+import com.hilfritz.bootstrap.view.placelist.PlaceListPresenter;
 
 import javax.inject.Singleton;
 
@@ -34,6 +35,11 @@ public class PresenterModule {
         return new UserListPresenter(myApplication);
     }
 
+    @Provides
+    @Singleton
+    PlaceListPresenter providePlaceListPresenter(){
+        return new PlaceListPresenter(myApplication);
+    }
 
     //ACTIVITY HERE
 

@@ -76,4 +76,5 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+    <string name="title_activity_place_list">Top Places to visit</string>
 </resources>

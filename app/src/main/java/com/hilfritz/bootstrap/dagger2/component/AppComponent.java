@@ -13,6 +13,8 @@ import com.hilfritz.bootstrap.view.contactlist.main.MainActivity;
 import com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListFragment;
 import com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter;
 import com.hilfritz.bootstrap.view.dialog.SimpleDialog;
+import com.hilfritz.bootstrap.view.placelist.PlaceListFragment;
+import com.hilfritz.bootstrap.view.placelist.PlaceListPresenter;
 
 import javax.inject.Singleton;
 
@@ -35,6 +37,9 @@ public interface AppComponent {
 
     void inject(UserDetailActivityFragment fragment);
     void inject(UserDetailFragmentPresenter presenter);
+
+    void inject(PlaceListFragment fragment);
+    void inject(PlaceListPresenter presenter);
 
 
     void inject(BaseActivity baseActivity);

@@ -8,13 +8,17 @@ public class PlaceList {
 
     @SerializedName("id")
     @Expose
-    private String id;
+    public String id;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("photo_url")
     @Expose
     private String photoUrl;
+
+
+    boolean isSelected = false;
+
 
     public String getId() {
         return id;
@@ -40,4 +44,11 @@ public class PlaceList {
         this.photoUrl = photoUrl;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
 }

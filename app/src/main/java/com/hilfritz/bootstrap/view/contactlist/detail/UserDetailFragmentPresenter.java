@@ -62,7 +62,22 @@ public class UserDetailFragmentPresenter extends BasePresenter implements BasePr
     }
 
     @Override
+    public void __fmwk_bpi_init_new() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_init_change() {
+
+    }
+
+    @Override
     public void __fmwk_bpi_reset() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_populate() {
 
     }
 }

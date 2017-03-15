@@ -1,10 +1,7 @@
 package com.hilfritz.bootstrap.dagger2.module;
 
-import android.content.Context;
-
 import com.hilfritz.bootstrap.application.MyApplication;
-
-import java.util.UUID;
+import com.hilfritz.bootstrap.dagger2.session.SessionData;
 
 import javax.inject.Singleton;
 
@@ -17,14 +14,15 @@ import dagger.Provides;
 @Module
 public class SessionModule {
     MyApplication myApplication;
-    Context context;
-
-    String sessionUuid = null;
-
 
     public SessionModule(MyApplication myApplication) {
         this.myApplication = myApplication;
-        sessionUuid = UUID.randomUUID().toString()+"<>"+System.currentTimeMillis();
+    }
+
+    @Singleton
+    @Provides
+    SessionData provideSessionData(){
+        return new SessionData(this.myApplication);
     }
 
 

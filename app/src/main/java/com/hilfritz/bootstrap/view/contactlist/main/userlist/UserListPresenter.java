@@ -8,7 +8,6 @@ import android.widget.Toast;
 import com.hilfritz.bootstrap.R;
 import com.hilfritz.bootstrap.api.RestApiManager;
 import com.hilfritz.bootstrap.api.pojo.UserWrapper;
-import com.hilfritz.bootstrap.api.pojo.places.PlacesWrapper;
 import com.hilfritz.bootstrap.application.MyApplication;
 import com.hilfritz.bootstrap.eventbus.deligate.UserListItemClickEventDeligate;
 import com.hilfritz.bootstrap.framework.BaseActivity;
@@ -146,24 +145,6 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
     public void populate() {
         Log.d(TAG, "populate()");
         fragment.notifyDataSetChanged();
-        apiManager.getPlacesSubscribable().subscribe(new Subscriber<PlacesWrapper>() {
-            @Override
-            public void onCompleted() {
-                Log.d(TAG, "populate() onCompleted: ");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.d(TAG, "populate() onError: ");
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onNext(PlacesWrapper placesWrapper) {
-                Log.d(TAG, "populate() onNext: list.size:"+placesWrapper.getPlaceList().size());
-            }
-        });
-
 
         //CALL API
         showLoading(LOADING_TYPES.REGULAR);
@@ -315,12 +296,27 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
 
     }
 
+    @Override
+    public void __fmwk_bpi_init_new() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_init_change() {
+
+    }
+
     public List<UserWrapper> getUsersList() {
         return usersList;
     }
 
     @Override
     public void __fmwk_bpi_reset() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_populate() {
 
     }
 
