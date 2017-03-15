@@ -9,6 +9,7 @@ import com.hilfritz.bootstrap.R;
 import com.hilfritz.bootstrap.api.RestApiManager;
 import com.hilfritz.bootstrap.api.pojo.UserWrapper;
 import com.hilfritz.bootstrap.application.MyApplication;
+import com.hilfritz.bootstrap.eventbus.deligate.UserListItemClickEventDeligate;
 import com.hilfritz.bootstrap.framework.BaseActivity;
 import com.hilfritz.bootstrap.framework.BaseFragment;
 import com.hilfritz.bootstrap.framework.BasePresenter;
@@ -301,5 +302,9 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
     @Override
     public void __fmwk_bpi_reset() {
 
+    }
+
+    public void onListItemClick(UserWrapper user){
+        UserListItemClickEventDeligate.userlistItemClick(user);
     }
 }

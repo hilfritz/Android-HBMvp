@@ -80,6 +80,7 @@ public class UserListAdapter extends ArrayAdapter<UserWrapper> {
         }
     }
 
+
     @Override
     public int getCount() {
         return items.size();

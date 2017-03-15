@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="vm"
+            type="com.hilfritz.bootstrap.api.pojo.UserWrapper"/>
+        <variable
+            name="presenter"
+            type="com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter"/>
+
+    </data>
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/padding_a"
+        android:id="@+id/relativeLayout"
+        android:onClick="@{()->presenter.onListItemClick(vm)}"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:text="@{vm.name}"
+            style="?android:textAppearanceLarge"
+            tools:text="first name last name"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/email"
+            style="?android:textAppearanceListItemSmall"
+            tools:text="emails"
+
+            android:text="@{vm.email}"
+            android:layout_below="@id/name"
+            />
+
+    </RelativeLayout>
+</layout>

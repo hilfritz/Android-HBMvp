@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.hilfritz.bootstrap.R;
@@ -18,7 +18,7 @@ import com.hilfritz.bootstrap.application.MyApplication;
 import com.hilfritz.bootstrap.eventbus.event.SortEvent;
 import com.hilfritz.bootstrap.framework.BaseActivity;
 import com.hilfritz.bootstrap.framework.BaseFragment;
-import com.hilfritz.bootstrap.view.contactlist.main.userlist.helper.UserListAdapter;
+import com.hilfritz.bootstrap.view.contactlist.main.userlist.helper.UserListDataBindingAdapter;
 import com.hilfritz.bootstrap.view.dialog.SimpleDialog;
 import com.hilfritz.bootstrap.view.loading.FullscreenLoadingDialog;
 
@@ -53,10 +53,10 @@ public class UserListFragment extends BaseFragment implements UserListView{
     TextView messageTextView;
 
     @BindView(R.id.userListView)
-    ListView listView;
+    RecyclerView listView;
 
-    UserListAdapter adapter;
-
+    //UserListAdapter adapter;
+    UserListDataBindingAdapter bindingAdapter;
 
     public UserListFragment() {
         // Required empty public constructor
@@ -96,8 +96,16 @@ public class UserListFragment extends BaseFragment implements UserListView{
         /**IMPORTANT: FRAMEWORK METHOD**/
         //INITIALIZE THE VIEWS HERE
         //LISTVIEWS, ADAPTERS, ETC
-        adapter = new UserListAdapter(this.getContext(), presenter.getUsersList());
-        listView.setAdapter(adapter);
+        //adapter = new UserListAdapter(this.getContext(), presenter.getUsersList());
+        //listView.setAdapter(adapter);
+
+        //INITIALIZE THE LIST
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listView.setLayoutManager(llm);
+
+        bindingAdapter = new UserListDataBindingAdapter(this.getContext(), presenter.getUsersList(), presenter);
+        listView.setAdapter(bindingAdapter);
 
         return view;
     }
@@ -194,7 +202,7 @@ public class UserListFragment extends BaseFragment implements UserListView{
             presenter.sort(UserListPresenter.LOADING_TYPES.SORTING_ZA);
     }
 
-    public ListView getListView() {
+    public RecyclerView getListView() {
         return listView;
     }
 
@@ -225,6 +233,6 @@ public class UserListFragment extends BaseFragment implements UserListView{
     }
 
     public void notifyDataSetChanged() {
-        adapter.notifyDataSetChanged();
+        bindingAdapter.notifyDataSetChanged();
     }
 }
