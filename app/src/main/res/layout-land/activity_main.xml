@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".view.contactlist.main.MainActivity"
+    tools:context=".ui.contactlist.main.MainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -18,14 +18,14 @@
             android:id="@+id/userListFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:name="com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListFragment"
+            android:name="com.hilfritz.mvp.ui.contactlist.main.userlist.UserListFragment"
             android:layout_weight="1"
             />
         <fragment
             android:id="@+id/userDetailFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:name="com.hilfritz.bootstrap.view.contactlist.detail.UserDetailActivityFragment"
+            android:name="com.hilfritz.mvp.ui.contactlist.detail.UserDetailActivityFragment"
             android:layout_weight="1"/>
     </LinearLayout>
     <TextView

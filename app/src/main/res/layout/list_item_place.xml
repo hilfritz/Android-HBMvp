@@ -5,10 +5,10 @@
     <data>
         <variable
             name="vm"
-            type="com.hilfritz.bootstrap.api.pojo.places.Place"/>
+            type="com.hilfritz.mvp.api.pojo.places.Place"/>
         <variable
             name="presenter"
-            type="com.hilfritz.bootstrap.view.placelist.PlaceListPresenter"/>
+            type="com.hilfritz.mvp.ui.placelist.PlaceListPresenter"/>
 
     </data>
     <RelativeLayout

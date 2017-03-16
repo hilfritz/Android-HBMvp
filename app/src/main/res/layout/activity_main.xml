@@ -5,7 +5,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.contactlist.main.MainActivity">
+    tools:context=".ui.contactlist.main.MainActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:id="@+id/userListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListFragment"
+        android:name="com.hilfritz.mvp.ui.contactlist.main.userlist.UserListFragment"
         android:layout_above="@+id/owner"
         />
     <TextView

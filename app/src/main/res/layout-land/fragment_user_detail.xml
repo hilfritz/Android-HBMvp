@@ -7,7 +7,7 @@
     android:layout_marginLeft="@dimen/padding_a"
     android:layout_marginRight="@dimen/padding_a"
     android:background="@color/bg1"
-    tools:context=".view.contactlist.detail.UserDetailActivityFragment">
+    tools:context=".ui.contactlist.detail.UserDetailActivityFragment">
 
     <TextView
         android:layout_width="wrap_content"

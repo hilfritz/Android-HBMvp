@@ -5,10 +5,10 @@
     <data>
         <variable
             name="vm"
-            type="com.hilfritz.bootstrap.api.pojo.UserWrapper"/>
+            type="com.hilfritz.mvp.api.pojo.UserWrapper"/>
         <variable
             name="presenter"
-            type="com.hilfritz.bootstrap.view.contactlist.main.userlist.UserListPresenter"/>
+            type="com.hilfritz.mvp.ui.contactlist.main.userlist.UserListPresenter"/>
 
     </data>
     <RelativeLayout android:layout_width="match_parent"

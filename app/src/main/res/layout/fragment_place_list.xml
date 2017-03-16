@@ -4,7 +4,7 @@
     android:id="@+id/content_place_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hilfritz.bootstrap.view.placelist.PlaceListFragment"
+    tools:context="com.hilfritz.mvp.ui.placelist.PlaceListFragment"
     tools:showIn="@layout/activity_place_list">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list_view"
