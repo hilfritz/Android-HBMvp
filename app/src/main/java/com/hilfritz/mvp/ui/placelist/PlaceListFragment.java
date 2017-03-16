@@ -12,6 +12,7 @@ import com.hilfritz.mvp.R;
 import com.hilfritz.mvp.application.MyApplication;
 import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.framework.BaseFragment;
+import com.hilfritz.mvp.framework.BaseFragmentInterface;
 import com.hilfritz.mvp.ui.placelist.helper.PlaceListAdapter;
 
 import javax.inject.Inject;
@@ -20,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PlaceListFragment extends BaseFragment{
+public class PlaceListFragment extends BaseFragment implements BaseFragmentInterface{
     private static final String TAG = "PlaceListFragment";
     @Inject PlaceListPresenter presenter;
 
@@ -47,17 +48,7 @@ public class PlaceListFragment extends BaseFragment{
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
         Timber.d("onCreateView:");
         ButterKnife.bind(this, view);
-
-        //INITIALIZE VIEWS HERE
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        listView.setLayoutManager(llm);
-
-        adapter = new PlaceListAdapter(presenter.getPlaceList(), presenter);
-        listView.setAdapter(getAdapter());
-        getAdapter().notifyDataSetChanged();
-
-
+        __fmwk_bfi_init_views();
         presenter.__fmwk_bpi_init((BaseActivity) getActivity(), this);
         return view;
     }
@@ -67,6 +58,20 @@ public class PlaceListFragment extends BaseFragment{
         super.onViewCreated(view, savedInstanceState);
         Timber.d("onViewCreated: ");
         presenter.__fmwk_bpi_populate();
+    }
+
+
+    @Override
+    public void __fmwk_bfi_init_views() {
+        Timber.d("__fmwk_bfi_init_views:");
+        //INITIALIZE VIEWS HERE
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listView.setLayoutManager(llm);
+
+        adapter = new PlaceListAdapter(presenter.getPlaceList(), presenter);
+        listView.setAdapter(getAdapter());
+        getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -79,4 +84,5 @@ public class PlaceListFragment extends BaseFragment{
     public PlaceListAdapter getAdapter() {
         return adapter;
     }
+
 }
