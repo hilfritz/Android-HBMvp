@@ -3,6 +3,7 @@ package com.hilfritz.bootstrap.view.contactlist.main.userlist;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -234,5 +235,31 @@ public class UserListFragment extends BaseFragment implements UserListView{
 
     public void notifyDataSetChanged() {
         bindingAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showLoading(@DrawableRes int icon, String message) {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showErrorFullScreen(@DrawableRes int icon, String message) {
+
+    }
+
+    @Override
+    public void showDialog(String message, @DrawableRes int iconId, boolean cancellable, boolean finishOnDismiss) {
+
+    }
+
+
+    @Override
+    public void refresh() {
+
     }
 }

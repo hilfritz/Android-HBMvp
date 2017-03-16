@@ -1,6 +1,7 @@
 package com.hilfritz.bootstrap.framework;
 
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 
 /**
  *
@@ -60,5 +61,14 @@ public interface BaseView {
      * </pre>
      */
     //public void bf_checkIfNewActivity(Bundle savedInstanceState);
+
+    public void showLoading(@DrawableRes int icon, String message);
+    public void hideLoading();
+
+    public void showErrorFullScreen(@DrawableRes int icon, String message);
+
+    public void showDialog(String message, @DrawableRes int iconId, boolean cancellable, boolean finishOnDismiss);
+
+    public void refresh();
 
 }

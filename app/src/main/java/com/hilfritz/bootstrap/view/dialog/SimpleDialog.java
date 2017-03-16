@@ -138,10 +138,11 @@ public class SimpleDialog extends DialogFragment {
     }
 
     /**
-     * Simple cancellable/non-cancellable dialogs
+     *
      * @param message
      * @param iconId
      * @param cancellable
+     * @param finishOnDismiss
      * @return
      */
     public static SimpleDialog newInstance(String message, int iconId, boolean cancellable, boolean finishOnDismiss) {

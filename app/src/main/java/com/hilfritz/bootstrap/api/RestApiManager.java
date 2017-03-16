@@ -68,6 +68,7 @@ public class RestApiManager {
         return api.getPlacesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .delay(UserListPresenter.DELAY, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 ;
     }
 

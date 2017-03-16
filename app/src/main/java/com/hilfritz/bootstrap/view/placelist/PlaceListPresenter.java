@@ -12,6 +12,7 @@ import com.hilfritz.bootstrap.framework.BaseActivity;
 import com.hilfritz.bootstrap.framework.BaseFragment;
 import com.hilfritz.bootstrap.framework.BasePresenter;
 import com.hilfritz.bootstrap.framework.BasePresenterInterface;
+import com.hilfritz.bootstrap.util.ConnectionUtil;
 import com.hilfritz.bootstrap.util.ExceptionUtil;
 import com.hilfritz.bootstrap.util.RxUtil;
 
@@ -80,16 +81,24 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     public void callPlaceListApi(){
         Log.d(TAG, "callPlaceListApi: ");
+        if (!ConnectionUtil.isNetworkAvailable(fragment.getContext())){
+            Log.d(TAG, "callPlaceListApi: no network");
+            fragment.showDialog("No Internet connection", android.R.drawable.ic_dialog_info, true, false);
+            return;
+        }
+        fragment.showLoading(android.R.drawable.progress_horizontal, "Loading");
         placeListSubscription = apiManager.getPlacesSubscribable()
                 .subscribe(new Subscriber<PlacesWrapper>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "callPlaceListApi: onCompleted: ");
+                        fragment.hideLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "callPlaceListApi: onError: ");
+                        fragment.hideLoading();
                         e.printStackTrace();
                         if (ExceptionUtil.isNoNetworkException(e)){
                             Toast.makeText(fragment.getActivity(), "No Internet connection", Toast.LENGTH_SHORT).show();
