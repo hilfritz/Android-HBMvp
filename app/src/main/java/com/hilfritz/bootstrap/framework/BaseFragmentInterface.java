@@ -5,6 +5,7 @@ import android.os.Bundle;
 /**
  * Created by Hilfritz Camallere on 15/3/17.
  * PC name herdmacbook1
+ *
  */
 @Deprecated
 public interface BaseFragmentInterface {

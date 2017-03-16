@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.hilfritz.bootstrap.application.MyApplication;
 /**IMPORTANT: FRAMEWORK CLASS**/
-/**
- * Created by Hilfritz P. Camallere on 8/20/2016.
+/*
+ * @author Hilfritz P. Camallere on 8/20/2016.
  */
 public class BaseActivity extends AppCompatActivity {
     @Override

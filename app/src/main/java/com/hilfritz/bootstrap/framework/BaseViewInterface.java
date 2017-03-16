@@ -5,12 +5,11 @@ import android.support.annotation.DrawableRes;
 
 /**
  *
- * unused
- * Created by Hilfritz P. Camallere on 7/2/2016.
+ * @author by Hilfritz P. Camallere on 7/2/2016.
  * This is the basic interface for all Views in this project's MVP code structure
  */
 
-public interface BaseView {
+public interface BaseViewInterface {
     /**
      * IMPORTANT: this must be called in {@link android.app.Fragment#onSaveInstanceState(Bundle)}
      * <br/> do your data saving here!

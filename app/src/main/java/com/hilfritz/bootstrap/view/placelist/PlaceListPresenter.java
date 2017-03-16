@@ -39,7 +39,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Inject
     RestApiManager apiManager;
-    private ArrayList<Place> place = new ArrayList<Place>();
+    private ArrayList<Place> placeList = new ArrayList<Place>();
 
     public PlaceListPresenter(MyApplication myApplication){
         //INITIALIZE INJECTION
@@ -63,7 +63,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void __fmwk_bpi_init_new() {
         Log.d(TAG, "__fmwk_bpi_init_new: init for new activity");
-        place.clear();
+        placeList.clear();
         view.getAdapter().notifyDataSetChanged();
     }
 
@@ -118,8 +118,8 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                         Log.d(TAG, "callPlaceListApi: onNext: ");
                         if (placesWrapper!=null){
                             if (placesWrapper.getPlace().size()>0){
-                                getPlace().clear();
-                                getPlace().addAll(placesWrapper.getPlace());
+                                getPlaceList().clear();
+                                getPlaceList().addAll(placesWrapper.getPlace());
                                 view.getAdapter().notifyDataSetChanged();
                             }
                         }
@@ -127,12 +127,12 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                 });
     }
 
-    public ArrayList<Place> getPlace() {
-        return place;
+    public ArrayList<Place> getPlaceList() {
+        return placeList;
     }
 
-    public void setPlace(ArrayList<Place> place) {
-        this.place = place;
+    public void setPlaceList(ArrayList<Place> place) {
+        this.placeList = place;
     }
 
     public void onListItemClick(Place place){
@@ -144,7 +144,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
             newVisibility = View.GONE;
 
         place.set__viewIsSelected(newVisibility);
-        final int i = getPlace().indexOf(place);
+        final int i = getPlaceList().indexOf(place);
         view.getAdapter().notifyItemChanged(i);
         //fragment.getAdapter().notifyDataSetChanged();
     }

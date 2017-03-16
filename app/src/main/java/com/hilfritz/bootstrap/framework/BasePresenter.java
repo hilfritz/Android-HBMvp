@@ -3,7 +3,7 @@ package com.hilfritz.bootstrap.framework;
 import android.util.Log;
 
 /**
- * Created by Hilfritz P. Camallere on 7/2/2016.
+ * @author by Hilfritz P. Camallere on 7/2/2016.
  */
 
 public abstract class BasePresenter {

@@ -1,7 +1,7 @@
 package com.hilfritz.bootstrap.framework;
 
 /**
- * Created by Hilfritz P. Camallere on 8/20/2016.
+ * @author  Hilfritz P. Camallere on 8/20/2016.
  */
 public interface BasePresenterInterface {
     /**

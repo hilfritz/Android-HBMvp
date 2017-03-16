@@ -40,6 +40,7 @@ public class PlaceListFragment extends BaseFragment{
         ((MyApplication)getActivity().getApplication()).getAppComponent().inject(this);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class PlaceListFragment extends BaseFragment{
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         listView.setLayoutManager(llm);
 
-        adapter = new PlaceListAdapter(presenter.getPlace(), presenter);
+        adapter = new PlaceListAdapter(presenter.getPlaceList(), presenter);
         listView.setAdapter(getAdapter());
         getAdapter().notifyDataSetChanged();
 
@@ -75,5 +76,4 @@ public class PlaceListFragment extends BaseFragment{
     public PlaceListAdapter getAdapter() {
         return adapter;
     }
-
 }
