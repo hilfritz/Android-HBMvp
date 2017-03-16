@@ -18,12 +18,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
-/**
- * A placeholder fragment containing a simple view.
- */
 public class PlaceListFragment extends BaseFragment{
-
+    private static final String TAG = "PlaceListFragment";
     @Inject PlaceListPresenter presenter;
 
     @BindView(R.id.list_view)
@@ -38,6 +36,8 @@ public class PlaceListFragment extends BaseFragment{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication)getActivity().getApplication()).getAppComponent().inject(this);
+        //Timber.tag("LifeCycles");
+        Timber.d("onCreate:");
     }
 
 
@@ -45,6 +45,7 @@ public class PlaceListFragment extends BaseFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
+        Timber.d("onCreateView:");
         ButterKnife.bind(this, view);
 
         //INITIALIZE VIEWS HERE
@@ -64,12 +65,14 @@ public class PlaceListFragment extends BaseFragment{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Timber.d("onViewCreated: ");
         presenter.__fmwk_bpi_populate();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Timber.d("onDestroy: ");
         presenter.__fmwk_bpi_reset();
     }
 
