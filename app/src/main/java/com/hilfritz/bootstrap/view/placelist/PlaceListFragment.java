@@ -1,7 +1,6 @@
 package com.hilfritz.bootstrap.view.placelist;
 
 import android.os.Bundle;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +12,6 @@ import com.hilfritz.bootstrap.R;
 import com.hilfritz.bootstrap.application.MyApplication;
 import com.hilfritz.bootstrap.framework.BaseActivity;
 import com.hilfritz.bootstrap.framework.BaseFragment;
-import com.hilfritz.bootstrap.framework.BaseView;
-import com.hilfritz.bootstrap.view.loading.FullscreenLoadingDialog;
 import com.hilfritz.bootstrap.view.placelist.helper.PlaceListAdapter;
 
 import javax.inject.Inject;
@@ -25,7 +22,7 @@ import butterknife.ButterKnife;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class PlaceListFragment extends BaseFragment implements BaseView{
+public class PlaceListFragment extends BaseFragment{
 
     @Inject PlaceListPresenter presenter;
 
@@ -79,28 +76,4 @@ public class PlaceListFragment extends BaseFragment implements BaseView{
         return adapter;
     }
 
-    @Override
-    public void showLoading(@DrawableRes int icon, String message) {
-        FullscreenLoadingDialog.showLoading(getFragmentManager(), message, icon, false);
-    }
-
-    @Override
-    public void hideLoading() {
-        FullscreenLoadingDialog.hideLoading();
-    }
-
-    @Override
-    public void showErrorFullScreen(@DrawableRes int icon, String message) {
-
-    }
-
-    @Override
-    public void showDialog(String message, @DrawableRes int iconId, boolean cancellable, boolean finishOnDismiss) {
-
-    }
-
-    @Override
-    public void refresh() {
-
-    }
 }

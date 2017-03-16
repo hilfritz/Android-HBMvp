@@ -1,5 +1,6 @@
 package com.hilfritz.bootstrap.view.placelist;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.hilfritz.bootstrap.framework.BasePresenterInterface;
 import com.hilfritz.bootstrap.util.ConnectionUtil;
 import com.hilfritz.bootstrap.util.ExceptionUtil;
 import com.hilfritz.bootstrap.util.RxUtil;
+import com.hilfritz.bootstrap.view.placelist.view.PlaceListView;
 
 import java.util.ArrayList;
 
@@ -30,8 +32,10 @@ import rx.Subscription;
 
 public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface{
     public static final String TAG = "PlaceListPresenter";
-    PlaceListFragment fragment;
+    //PlaceListFragment fragment;
     Subscription placeListSubscription;
+    PlaceListView view;
+    Context context;
 
     @Inject
     RestApiManager apiManager;
@@ -44,7 +48,9 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Override
     public void __fmwk_bpi_init(BaseActivity activity, BaseFragment fragment) {
-        this.fragment = (PlaceListFragment)fragment;
+        //this.fragment = (PlaceListFragment)fragment;
+        this.view = new PlaceListView((PlaceListFragment)fragment);
+        this.context = fragment.getContext();
         if (__fmwk_bp_isInitialLoad()){
             Log.d(TAG, "__fmwk_bpi_init:  new activity");
             __fmwk_bpi_init_new();
@@ -58,7 +64,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     public void __fmwk_bpi_init_new() {
         Log.d(TAG, "__fmwk_bpi_init_new: init for new activity");
         place.clear();
-        fragment.getAdapter().notifyDataSetChanged();
+        view.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -81,29 +87,29 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     public void callPlaceListApi(){
         Log.d(TAG, "callPlaceListApi: ");
-        if (!ConnectionUtil.isNetworkAvailable(fragment.getContext())){
+        if (!ConnectionUtil.isNetworkAvailable(getContext())){
             Log.d(TAG, "callPlaceListApi: no network");
-            fragment.showDialog("No Internet connection", android.R.drawable.ic_dialog_info, true, false);
+            view.showDialog("No Internet connection", android.R.drawable.ic_dialog_info, true, false);
             return;
         }
-        fragment.showLoading(android.R.drawable.progress_horizontal, "Loading");
+        view.showLoading(android.R.drawable.progress_horizontal, "Loading");
         placeListSubscription = apiManager.getPlacesSubscribable()
                 .subscribe(new Subscriber<PlacesWrapper>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "callPlaceListApi: onCompleted: ");
-                        fragment.hideLoading();
+                        view.hideLoading();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "callPlaceListApi: onError: ");
-                        fragment.hideLoading();
+                        view.hideLoading();
                         e.printStackTrace();
                         if (ExceptionUtil.isNoNetworkException(e)){
-                            Toast.makeText(fragment.getActivity(), "No Internet connection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
                         }else{
-                            Toast.makeText(fragment.getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -114,7 +120,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                             if (placesWrapper.getPlace().size()>0){
                                 getPlace().clear();
                                 getPlace().addAll(placesWrapper.getPlace());
-                                fragment.getAdapter().notifyDataSetChanged();
+                                view.getAdapter().notifyDataSetChanged();
                             }
                         }
                     }
@@ -139,7 +145,11 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
         place.set__viewIsSelected(newVisibility);
         final int i = getPlace().indexOf(place);
-        fragment.getAdapter().notifyItemChanged(i);
+        view.getAdapter().notifyItemChanged(i);
         //fragment.getAdapter().notifyDataSetChanged();
+    }
+
+    public Context getContext() {
+        return context;
     }
 }
