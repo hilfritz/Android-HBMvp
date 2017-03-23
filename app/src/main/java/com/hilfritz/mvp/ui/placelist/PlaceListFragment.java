@@ -1,7 +1,9 @@
 package com.hilfritz.mvp.ui.placelist;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,6 +52,8 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
         ButterKnife.bind(this, view);
         __fmwk_bfi_init_views();
         presenter.__fmwk_bpi_init((BaseActivity) getActivity(), this);
+
+
         return view;
     }
 
@@ -65,10 +69,18 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
     public void __fmwk_bfi_init_views() {
         Timber.d("__fmwk_bfi_init_views:");
         //INITIALIZE VIEWS HERE
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        listView.setLayoutManager(llm);
 
+        //HANDLE ORIENTATION CHANGE OF RECYCLERVIEW,
+        if(getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            listView.setLayoutManager(llm);
+        } else{
+            listView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+
+        }
+
+        //INITIALIZE THE ADAPTERS
         adapter = new PlaceListAdapter(presenter.getPlaceList(), presenter);
         listView.setAdapter(getAdapter());
         getAdapter().notifyDataSetChanged();

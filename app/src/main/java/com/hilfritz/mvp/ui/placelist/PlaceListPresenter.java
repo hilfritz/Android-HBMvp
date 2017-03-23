@@ -52,7 +52,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         if (this.view == null){
             this.view = new PlaceListView((PlaceListFragment)fragment);
         }
-        this.view.init((PlaceListFragment)fragment);
+        this.view.bindToFragment((PlaceListFragment)fragment);
         if (__fmwk_bp_isInitialLoad()){
             Timber.d("__fmwk_bpi_init:  new activity");
             __fmwk_bpi_init_new();
@@ -64,7 +64,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Override
     public void __fmwk_bpi_init_new() {
-        Timber.d("__fmwk_bpi_init_new: init for new activity");
+        Timber.d("__fmwk_bpi_init_new: bindToFragment for new activity");
         placeList.clear();
         view.getAdapter().notifyDataSetChanged();
     }

@@ -3,6 +3,7 @@ package com.hilfritz.mvp.ui.placelist.view;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.FragmentManager;
 
+import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BaseViewInterface;
 import com.hilfritz.mvp.ui.dialog.SimpleDialog;
 import com.hilfritz.mvp.ui.loading.FullscreenLoadingDialog;
@@ -20,10 +21,12 @@ public class PlaceListView implements BaseViewInterface {
     FragmentManager fragmentManager;
 
     public PlaceListView(PlaceListFragment fragment) {
-        init(fragment);
+        bindToFragment(fragment);
     }
-    public void init(PlaceListFragment fragment) {
-        this.fragment = fragment;
+
+    @Override
+    public void bindToFragment(BaseFragment fragment) {
+        this.fragment = (PlaceListFragment) fragment;
         this.fragmentManager = fragment.getFragmentManager();
     }
 

@@ -281,7 +281,7 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
         this.fragment = (UserListFragment) fragment;
 
         if (__fmwk_bp_isInitialLoad()==true) {
-            logd("init() for new activity");
+            logd("bindToFragment() for new activity");
             usersList.clear();
             //FRAMEWORK
             /**
@@ -291,7 +291,7 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
              */
             populate();
         }else{
-            logd("init() for orientation change");
+            logd("bindToFragment() for orientation change");
         }
 
     }

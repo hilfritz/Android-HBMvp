@@ -70,4 +70,5 @@ public interface BaseViewInterface {
 
     public void refresh();
 
+    public void bindToFragment(BaseFragment fragment);
 }
