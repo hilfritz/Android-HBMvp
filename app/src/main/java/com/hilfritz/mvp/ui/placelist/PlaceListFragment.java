@@ -37,7 +37,6 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication)getActivity().getApplication()).getAppComponent().inject(this);
-        //Timber.tag("LifeCycles");
         Timber.d("onCreate:");
         __fmwk_bf_checkIfNewActivity(savedInstanceState, presenter);
     }

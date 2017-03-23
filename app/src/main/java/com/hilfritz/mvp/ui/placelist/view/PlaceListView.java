@@ -20,6 +20,9 @@ public class PlaceListView implements BaseViewInterface {
     FragmentManager fragmentManager;
 
     public PlaceListView(PlaceListFragment fragment) {
+        init(fragment);
+    }
+    public void init(PlaceListFragment fragment) {
         this.fragment = fragment;
         this.fragmentManager = fragment.getFragmentManager();
     }
