@@ -47,10 +47,10 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Override
     public void __fmwk_bpi_init(BaseActivity activity, BaseFragment fragment) {
-        this.view = new PlaceListView((PlaceListFragment)fragment);
         this.context = fragment.getContext();
         Timber.tag(TAG);
         if (__fmwk_bp_isInitialLoad()){
+            this.view = new PlaceListView((PlaceListFragment)fragment);
             Timber.d("__fmwk_bpi_init:  new activity");
             __fmwk_bpi_init_new();
         }else{
@@ -81,6 +81,11 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void __fmwk_bpi_populate() {
         Timber.d("__fmwk_bpi_populate: ");
+        if (__fmwk_bp_isFromRotation()){
+            //IMPORTANT: CHECK
+            Timber.d("__fmwk_bpi_populate: rotation detected.");
+            return;
+        }
         callPlaceListApi();
     }
 
@@ -144,6 +149,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
         place.set__viewIsSelected(newVisibility);
         final int i = getPlaceList().indexOf(place);
+        Timber.d("onListItemClick: i:"+i);
         view.getAdapter().notifyItemChanged(i);
         //fragment.getAdapter().notifyDataSetChanged();
     }

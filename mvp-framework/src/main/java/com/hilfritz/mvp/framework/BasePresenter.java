@@ -25,4 +25,8 @@ public abstract class BasePresenter {
         this.initialLoad = initialLoad;
     }
 
+    public boolean __fmwk_bp_isFromRotation(){
+        return __fmwk_bp_isInitialLoad()==false;
+    }
+
 }
