@@ -64,7 +64,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Override
     public void __fmwk_bpi_init_new() {
-        Timber.d("__fmwk_bpi_init_new: bindToFragment for new activity");
+        Timber.d("__fmwk_bpi_init_new: for new activity");
         placeList.clear();
         view.getAdapter().notifyDataSetChanged();
     }

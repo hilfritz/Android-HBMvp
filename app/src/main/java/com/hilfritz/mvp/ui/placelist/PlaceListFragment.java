@@ -77,7 +77,6 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
             listView.setLayoutManager(llm);
         } else{
             listView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-
         }
 
         //INITIALIZE THE ADAPTERS
