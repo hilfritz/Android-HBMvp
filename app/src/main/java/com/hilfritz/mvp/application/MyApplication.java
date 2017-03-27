@@ -11,6 +11,8 @@ import com.hilfritz.mvp.dagger2.module.PresenterModule;
 import com.hilfritz.mvp.dagger2.module.RestApiModule;
 import com.hilfritz.mvp.dagger2.module.SessionModule;
 import com.hilfritz.mvp.dagger2.module.UtilityModule;
+import com.hilfritz.mvp.util.logging.LogFileManager;
+import com.hilfritz.mvp.util.logging.TimberFileLogTree;
 
 import timber.log.Timber;
 
@@ -32,11 +34,11 @@ public class MyApplication extends Application {
 
 
     private void initializeTimber() {
-        Timber.plant(new Timber.DebugTree());
+        //Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG){
-
+            //Timber.plant(new TimberFileLogTree(new LogFileManager()));
         }else{
-            //Timber.plant(new TimberFileLogTree());
+            Timber.plant(new TimberFileLogTree(new LogFileManager()));
         }
     }
 

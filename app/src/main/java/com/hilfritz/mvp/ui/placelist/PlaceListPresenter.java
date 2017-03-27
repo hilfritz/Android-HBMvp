@@ -153,16 +153,19 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     }
 
     public void onListItemClick(Place place){
-        Timber.d("onListItemClick: ");
         int newVisibility = View.GONE;
-        if (place.get__viewIsSelected()==View.GONE)
+        if (place.get__viewIsSelected()==View.GONE) {
             newVisibility = View.VISIBLE;
-        if (place.get__viewIsSelected()==View.VISIBLE)
-            newVisibility = View.GONE;
+            Timber.d("onListItemClick: "+place.getName()+" selected");
 
+        }
+        if (place.get__viewIsSelected()==View.VISIBLE) {
+            newVisibility = View.GONE;
+            Timber.d("onListItemClick: "+place.getName()+" not selected");
+        }
         place.set__viewIsSelected(newVisibility);
         final int i = getPlaceList().indexOf(place);
-        Timber.d("onListItemClick: i:"+i);
+        //Timber.d("onListItemClick: i:"+i);
         view.getAdapter().notifyItemChanged(i);
         //fragment.getAdapter().notifyDataSetChanged();
     }
