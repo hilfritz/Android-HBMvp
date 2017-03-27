@@ -2,8 +2,8 @@ package com.hilfritz.mvp.application;
 
 import android.app.Application;
 
-import com.facebook.drawee.backends.pipeline.BuildConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.hilfritz.mvp.BuildConfig;
 import com.hilfritz.mvp.dagger2.component.AppComponent;
 import com.hilfritz.mvp.dagger2.component.DaggerAppComponent;
 import com.hilfritz.mvp.dagger2.module.CacheModule;
@@ -36,7 +36,8 @@ public class MyApplication extends Application {
     private void initializeTimber() {
         //Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG){
-            //Timber.plant(new TimberFileLogTree(new LogFileManager()));
+            Timber.plant(new TimberFileLogTree(new LogFileManager()));
+            //Timber.plant(new Timber.DebugTree());
         }else{
             Timber.plant(new TimberFileLogTree(new LogFileManager()));
         }
