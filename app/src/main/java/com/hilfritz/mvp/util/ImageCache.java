@@ -1,6 +1,5 @@
 package com.hilfritz.mvp.util;
 
-import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
@@ -25,22 +24,23 @@ public class ImageCache {
     File payslipDir;
     // Singleton instance
     private static ImageCache sInstance = null;
-
+    MyApplication myApplication;
 
 
     public static ImageCache getInstance() {
         return sInstance;
     }
 
-    public ImageCache(){
+    public ImageCache(MyApplication myApplication){
+        this.myApplication = myApplication;
         sInstance = this;
-        initializeDirectories();
+        initializeDirectories(myApplication);
     }
 
-    public void initializeDirectories(){
+    public void initializeDirectories(MyApplication myApplication){
         //cacheDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         //cacheDir = Environment.getExternalStorageDirectory().getAbsoluteFile();
-        File filesDir = MyApplication.getInstance().getFilesDir();
+        File filesDir = myApplication.getFilesDir();
 
         //File cacheDir = MyApplication.getInstance().getDir("HerdMe", Context.MODE_PRIVATE);
         File cacheDir = new File(filesDir, "HerdMe");
@@ -49,7 +49,7 @@ public class ImageCache {
         //File externalStoragePublicDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         //File externalStoragePublicDirectory = Environment.getDownloadCacheDirectory();
         //File externalStoragePublicDirectory = Environment.getDataDirectory(); //NOT WORKING
-        File externalStoragePublicDirectory = MyApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS); //this directory will be deleted when the app is uninstalled
+        File externalStoragePublicDirectory = myApplication.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS); //this directory will be deleted when the app is uninstalled
         //File externalStoragePublicDirectory = filesDir;
 
         File external = new File(externalStoragePublicDirectory, "HerdMe");
@@ -100,14 +100,14 @@ public class ImageCache {
 
 
 
-    public File getReportingOfficerCacheDirectory(Context context){
-        initializeDirectories();
+    public File getReportingOfficerCacheDirectory(MyApplication myApplication){
+        initializeDirectories(myApplication);
         return reportingOfficerDir;
     }
 
 
-    public File getPayslipDir() {
-        initializeDirectories();
+    public File getPayslipDir(MyApplication myApplication) {
+        initializeDirectories(myApplication);
         return payslipDir;
     }
 
@@ -120,7 +120,7 @@ public class ImageCache {
             FileUtils.deleteDirectory(payslipDir);
             FileUtils.deleteDirectory(imageDir);
             FileUtils.deleteDirectory(reportingOfficerDir);
-            initializeDirectories();
+            //initializeDirectories();
         } catch (IOException e) {
             Log.d(TAG, "reset: exception:"+e);
             e.printStackTrace();

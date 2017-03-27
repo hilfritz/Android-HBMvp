@@ -23,12 +23,17 @@ public class LogFileManager {
     File logFilesDir;
     File currentLogfile;
 
-    public LogFileManager() {
-        initializeDirectories();
+    MyApplication myApplication;
+
+    public LogFileManager(MyApplication myApplication) {
+        //myApplication.getAppComponent().inject(this);
+        this.myApplication = myApplication;
+        initializeDirectories(myApplication);
+
     }
 
-    void initializeDirectories(){
-        File externalStoragePublicDirectory = MyApplication.getInstance().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS); //this directory will be deleted when the app is uninstalled
+    void initializeDirectories(MyApplication myApplication){
+        File externalStoragePublicDirectory = myApplication.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS); //this directory will be deleted when the app is uninstalled
         logFilesDir = new File(externalStoragePublicDirectory, LOG_DIR);
         //logFilesDir = new File("temp", LOG_DIR);
         if (logFilesDir.exists()==false){
@@ -49,7 +54,7 @@ public class LogFileManager {
     }
 
     public File getCurrentLogFile(){
-        initializeDirectories();
+        initializeDirectories(myApplication);
         String currentTimestamp = FileLogWriter.getCurrentTimeStamp();
         String dateStamp = FileLogWriter.getCurrentDateStamp();
         currentLogfile = new File(getLogFilesDir(), dateStamp);

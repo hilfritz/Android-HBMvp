@@ -13,6 +13,7 @@ import com.hilfritz.mvp.dagger2.module.SessionModule;
 import com.hilfritz.mvp.dagger2.module.UtilityModule;
 import com.hilfritz.mvp.util.logging.LogFileManager;
 import com.hilfritz.mvp.util.logging.TimberFileLogTree;
+import com.squareup.leakcanary.LeakCanary;
 
 import timber.log.Timber;
 
@@ -22,24 +23,34 @@ import timber.log.Timber;
 
 public class MyApplication extends Application {
     AppComponent appComponent;
-    private static MyApplication mInstance;
+    //private static MyApplication mInstance;
     @Override
     public void onCreate() {
         super.onCreate();
-        mInstance = this;
+        //mInstance = this;
+        initializeLeakCanary();
         initializeDagger();
         Fresco.initialize(this);
         initializeTimber();
     }
 
+    private void initializeLeakCanary(){
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
+    }
 
     private void initializeTimber() {
         //Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG){
-            Timber.plant(new TimberFileLogTree(new LogFileManager()));
+            Timber.plant(new TimberFileLogTree(new LogFileManager(this)));
             //Timber.plant(new Timber.DebugTree());
         }else{
-            Timber.plant(new TimberFileLogTree(new LogFileManager()));
+            Timber.plant(new TimberFileLogTree(new LogFileManager(this)));
         }
     }
 
@@ -53,10 +64,11 @@ public class MyApplication extends Application {
                 .build();
 
     }
+    /*
     public static synchronized MyApplication getInstance() {
         return mInstance;
     }
-
+    */
 
     public AppComponent getAppComponent() {
         return appComponent;

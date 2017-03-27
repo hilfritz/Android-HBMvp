@@ -1,10 +1,10 @@
 package com.hilfritz.mvp.dagger2.component;
 
 import com.hilfritz.mvp.dagger2.module.CacheModule;
-import com.hilfritz.mvp.dagger2.module.SessionModule;
-import com.hilfritz.mvp.dagger2.module.UtilityModule;
 import com.hilfritz.mvp.dagger2.module.PresenterModule;
 import com.hilfritz.mvp.dagger2.module.RestApiModule;
+import com.hilfritz.mvp.dagger2.module.SessionModule;
+import com.hilfritz.mvp.dagger2.module.UtilityModule;
 import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.ui.contactlist.detail.UserDetailActivity;
 import com.hilfritz.mvp.ui.contactlist.detail.UserDetailActivityFragment;
@@ -46,5 +46,9 @@ public interface AppComponent {
     void inject(MainActivity activity);
     void inject(UserDetailActivity activity);
     void inject(SimpleDialog simpleDialog);
+
+
+    //void inject(ImageCache imageCache);
+    //void inject(LogFileManager logFileManager);
 
 }
