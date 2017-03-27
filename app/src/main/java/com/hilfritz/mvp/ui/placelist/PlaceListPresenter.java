@@ -32,9 +32,11 @@ import timber.log.Timber;
 
 public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface{
     public static final String TAG = "PlaceListPresenter";
+
     Subscription placeListSubscription;
     PlaceListView view;
     Context context;
+    PlaceListActivity activity;
 
     @Inject
     RestApiManager apiManager;
@@ -48,12 +50,14 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void __fmwk_bpi_init(BaseActivity activity, BaseFragment fragment) {
         this.context = fragment.getContext();
+        this.activity = (PlaceListActivity) activity;
         Timber.tag(TAG);
         if (this.view == null){
             this.view = new PlaceListView((PlaceListFragment)fragment);
         }
         this.view.bindToFragment((PlaceListFragment)fragment);
         if (__fmwk_bp_isInitialLoad()){
+
             Timber.d("__fmwk_bpi_init:  new activity");
             __fmwk_bpi_init_new();
         }else{
@@ -81,6 +85,9 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         if (__fmwk_bp_isFromRotation()){
             //IMPORTANT: CHECK
             Timber.d("__fmwk_bpi_populate: rotation detected.");
+            if (RxUtil.isSubscribed(placeListSubscription)){
+                view.showLoading(android.R.drawable.progress_horizontal, "Loading");
+            }
             return;
         }
         callPlaceListApi();
@@ -99,6 +106,11 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void __fmwk_bpi_destroy() {
         Timber.d("__fmwk_bpi_destroy: ");
+        //THIS IS IMPORTANT, ONLY CANCEL/UNSUBSCRIBE YOUR PROCESSESS WHEN THE
+        //ACTIVITY IS ACTUALLY FINISHING,
+        if (!this.activity.isFinishing()) {
+            return;
+        }
         RxUtil.unsubscribe(placeListSubscription);
     }
 

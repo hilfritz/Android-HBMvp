@@ -105,6 +105,8 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
         presenter.__fmwk_bpi_pause();
     }
 
+
+
     public PlaceListAdapter getAdapter() {
         return adapter;
     }

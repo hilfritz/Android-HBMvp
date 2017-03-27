@@ -9,6 +9,7 @@ import com.hilfritz.mvp.ui.dialog.SimpleDialog;
 import com.hilfritz.mvp.ui.loading.FullscreenLoadingDialog;
 import com.hilfritz.mvp.ui.placelist.PlaceListFragment;
 import com.hilfritz.mvp.ui.placelist.helper.PlaceListAdapter;
+import com.hilfritz.mvp.ui.placelist.helper.PlaceListViewState;
 
 /**
  * Created by Hilfritz Camallere on 16/3/17.
@@ -19,6 +20,7 @@ public class PlaceListView implements BaseViewInterface {
 
     PlaceListFragment fragment;
     FragmentManager fragmentManager;
+    PlaceListViewState state;
 
     public PlaceListView(PlaceListFragment fragment) {
         bindToFragment(fragment);
@@ -30,6 +32,9 @@ public class PlaceListView implements BaseViewInterface {
         this.fragmentManager = fragment.getFragmentManager();
     }
 
+    public void processState(PlaceListViewState state){
+
+    }
 
     @Override
     public void showLoading(@DrawableRes int icon, String message) {
