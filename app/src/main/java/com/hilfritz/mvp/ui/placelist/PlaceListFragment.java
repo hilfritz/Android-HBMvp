@@ -52,8 +52,6 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
         ButterKnife.bind(this, view);
         __fmwk_bfi_init_views();
         presenter.__fmwk_bpi_init((BaseActivity) getActivity(), this);
-
-
         return view;
     }
 
@@ -89,7 +87,22 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
     public void onDestroy() {
         super.onDestroy();
         Timber.d("onDestroy: ");
-        presenter.__fmwk_bpi_reset();
+        presenter.__fmwk_bpi_destroy();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Timber.d("onResume: ");
+        presenter.__fmwk_bpi_resume();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Timber.d("onResume: ");
+        presenter.__fmwk_bpi_pause();
     }
 
     public PlaceListAdapter getAdapter() {

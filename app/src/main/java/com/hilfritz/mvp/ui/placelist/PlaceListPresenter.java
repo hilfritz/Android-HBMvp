@@ -76,12 +76,6 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     }
 
     @Override
-    public void __fmwk_bpi_reset() {
-        Timber.d("__fmwk_bpi_reset: ");
-        RxUtil.unsubscribe(placeListSubscription);
-    }
-
-    @Override
     public void __fmwk_bpi_populate() {
         Timber.d("__fmwk_bpi_populate: ");
         if (__fmwk_bp_isFromRotation()){
@@ -90,6 +84,22 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
             return;
         }
         callPlaceListApi();
+    }
+
+    @Override
+    public void __fmwk_bpi_resume() {
+        Timber.d("__fmwk_bpi_resume: ");
+    }
+
+    @Override
+    public void __fmwk_bpi_pause() {
+        Timber.d("__fmwk_bpi_pause: ");
+    }
+
+    @Override
+    public void __fmwk_bpi_destroy() {
+        Timber.d("__fmwk_bpi_destroy: ");
+        RxUtil.unsubscribe(placeListSubscription);
     }
 
     public void callPlaceListApi(){

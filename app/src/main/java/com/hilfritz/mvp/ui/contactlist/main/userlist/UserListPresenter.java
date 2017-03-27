@@ -310,13 +310,24 @@ public class UserListPresenter extends BasePresenter implements BasePresenterInt
         return usersList;
     }
 
+
     @Override
-    public void __fmwk_bpi_reset() {
+    public void __fmwk_bpi_populate() {
 
     }
 
     @Override
-    public void __fmwk_bpi_populate() {
+    public void __fmwk_bpi_resume() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_pause() {
+
+    }
+
+    @Override
+    public void __fmwk_bpi_destroy() {
 
     }
 

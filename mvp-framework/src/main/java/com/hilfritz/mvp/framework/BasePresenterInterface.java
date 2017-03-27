@@ -31,8 +31,6 @@ public interface BasePresenterInterface {
      */
      void __fmwk_bpi_init_change();
 
-     void __fmwk_bpi_reset();
-
     /**
      * IMPORTANT: CALL THIS AFTER __fmwk_bpi_init is called
      *
@@ -42,4 +40,23 @@ public interface BasePresenterInterface {
      * </ul>
      */
      void __fmwk_bpi_populate();
+
+    /**
+     * Method that control the lifecycle of the view. It should be called in the view's
+     * (Activity or Fragment) onResume() method.
+     */
+    void __fmwk_bpi_resume();
+
+    /**
+     * Method that control the lifecycle of the view. It should be called in the view's
+     * (Activity or Fragment) onPause() method.
+     */
+    void __fmwk_bpi_pause();
+
+    /**
+     * Method that control the lifecycle of the view. It should be called in the view's
+     * (Activity or Fragment) onDestroy() method.
+     */
+    void __fmwk_bpi_destroy();
+
 }
