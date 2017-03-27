@@ -101,7 +101,7 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
     @Override
     public void onPause() {
         super.onPause();
-        Timber.d("onResume: ");
+        Timber.d("onPause: ");
         presenter.__fmwk_bpi_pause();
     }
 
