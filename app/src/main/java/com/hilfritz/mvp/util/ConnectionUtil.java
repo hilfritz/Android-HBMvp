@@ -14,11 +14,12 @@ public class ConnectionUtil {
      * see http://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
      * @return
      */
-    public static boolean isNetworkAvailable(Context context) {
+    public static final boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+                = (ConnectivityManager) context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
     }
 
 }
