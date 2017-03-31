@@ -263,8 +263,4 @@ public class UserListFragment extends BaseFragment implements UserListView{
 
     }
 
-    @Override
-    public void bindToFragment(BaseFragment fragment) {
-
-    }
 }

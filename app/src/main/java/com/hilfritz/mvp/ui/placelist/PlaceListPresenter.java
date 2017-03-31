@@ -12,7 +12,7 @@ import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BasePresenter;
 import com.hilfritz.mvp.framework.BasePresenterInterface;
-import com.hilfritz.mvp.ui.placelist.view.PlaceListView;
+import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
 import com.hilfritz.mvp.util.ConnectionUtil;
 import com.hilfritz.mvp.util.ExceptionUtil;
 import com.hilfritz.mvp.util.RxUtil;
@@ -34,7 +34,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     public static final String TAG = "PlaceListPresenter";
 
     Subscription placeListSubscription;
-    PlaceListView view;
+    PlaceListViewInterface view;
     Context context;
     PlaceListActivity activity;
 
@@ -52,10 +52,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         this.context = fragment.getContext();
         this.activity = (PlaceListActivity) activity;
         Timber.tag(TAG);
-        if (this.view == null){
-            this.view = new PlaceListView((PlaceListFragment)fragment);
-        }
-        this.view.bindToFragment((PlaceListFragment)fragment);
+        this.view = (PlaceListFragment)fragment;
         if (__fmwk_bp_isInitialLoad()){
 
             Timber.d("__fmwk_bpi_init:  new activity");
@@ -108,10 +105,14 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         Timber.d("__fmwk_bpi_destroy: ");
         //THIS IS IMPORTANT, ONLY CANCEL/UNSUBSCRIBE YOUR PROCESSESS WHEN THE
         //ACTIVITY IS ACTUALLY FINISHING,
+        //THIS WILL MAKE SURE YOUR PROCESSES ARE NOT CANCELLED WHEN THE DEVICE IS BEING ROTATED
         if (!this.activity.isFinishing()) {
             return;
         }
         RxUtil.unsubscribe(placeListSubscription);
+        this.activity = null;
+        this.view = null;
+
     }
 
     public void callPlaceListApi(){

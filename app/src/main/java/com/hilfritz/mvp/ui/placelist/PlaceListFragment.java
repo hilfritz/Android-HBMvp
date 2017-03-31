@@ -2,6 +2,7 @@ package com.hilfritz.mvp.ui.placelist;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,7 +16,10 @@ import com.hilfritz.mvp.application.MyApplication;
 import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BaseFragmentInterface;
+import com.hilfritz.mvp.ui.dialog.SimpleDialog;
+import com.hilfritz.mvp.ui.loading.FullscreenLoadingDialog;
 import com.hilfritz.mvp.ui.placelist.helper.PlaceListAdapter;
+import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
 
 import javax.inject.Inject;
 
@@ -23,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PlaceListFragment extends BaseFragment implements BaseFragmentInterface{
+public class PlaceListFragment extends BaseFragment implements BaseFragmentInterface, PlaceListViewInterface{
     private static final String TAG = "PlaceListFragment";
     @Inject PlaceListPresenter presenter;
 
@@ -106,9 +110,37 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
     }
 
 
-
+    @Override
     public PlaceListAdapter getAdapter() {
         return adapter;
+    }
+
+
+
+    @Override
+    public void showLoading(@DrawableRes int icon, String message) {
+        FullscreenLoadingDialog.showLoading(getFragmentManager(), message, icon, false);
+    }
+
+    @Override
+    public void hideLoading() {
+        FullscreenLoadingDialog.hideLoading();
+    }
+
+    @Override
+    public void showErrorFullScreen(@DrawableRes int icon, String message) {
+
+    }
+
+    @Override
+    public void showDialog(String message, @DrawableRes int iconId, boolean cancellable, boolean finishOnDismiss) {
+        SimpleDialog simpleDialog = SimpleDialog.newInstance(message, iconId, true, false);
+        simpleDialog.show(getFragmentManager(), SimpleDialog.TAG);
+    }
+
+    @Override
+    public void refresh() {
+
     }
 
 }

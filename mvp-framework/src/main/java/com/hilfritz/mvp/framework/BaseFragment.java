@@ -32,4 +32,11 @@ public abstract class BaseFragment extends Fragment {
             presenter.__fmwk_bp_setInitialLoad(false);
         }
     }
+
+    public boolean __fmwk_bf_isActivityFinishing(){
+        if (getActivity().isFinishing()){
+            return true;
+        }
+        return false;
+    }
 }
