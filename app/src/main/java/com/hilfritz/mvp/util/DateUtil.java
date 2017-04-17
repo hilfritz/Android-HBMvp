@@ -3,10 +3,13 @@ package com.hilfritz.mvp.util;
 import android.content.Context;
 import android.util.Log;
 
-import com.hilfritz.mvp.R;
+import com.herdhr.userapp.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -14,11 +17,13 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Created by hilfritz on 8/1/16.
+ * Created by Hilfritz Camallere on 23/3/16.
  */
 public class DateUtil {
     public static final String TAG = "DateUtil";
@@ -33,7 +38,9 @@ public class DateUtil {
     public static final String DISPLAY_DATE_FORMAT5 = "hh:mma "; //09:59AM
 
     public static final String DISPLAY_DATE_FORMAT6 = "MMM ''yy "; //JAN '16
-
+    public static final String DISPLAY_DATE_FORMAT7 = "hh:mmaa, dd MMM ''yy  "; //18:59, 11 Aug'15
+    public static final String DISPLAY_DATE_FORMAT8 = "dd";
+    public static final String DISPLAY_DATE_FORMAT9 = "MMM"; //JAN
 
     /**
      * transforms the Short names of the month to uppercase
@@ -46,7 +53,7 @@ public class DateUtil {
         //DOING IT MANUALLY
         String retVal = "";
 
-        if (StringUtil.isStringEmpty(dateStr)){
+        if (StringUtils.isStringEmpty(dateStr)){
             return retVal;
         }
 
@@ -106,6 +113,16 @@ public class DateUtil {
         DateTime zoned = dateTime.withZone(timeZone);
         DateTimeFormatter fmt = DateTimeFormat.forPattern(dateFormat).withZone(timeZone);
         return fmt.print(zoned);
+    }
+    /**
+     *
+     * @param dateTime DateTime the DateTime object to format
+     * @param dateFormat String ex yyyy-mm-dd
+     * @return String the formated date
+     */
+    public static String formatDate (DateTime dateTime, String dateFormat){
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(dateFormat);
+        return fmt.print(dateTime);
     }
 
     /**
@@ -220,6 +237,15 @@ public class DateUtil {
         DateTime dateTime = new DateTime(year,month,day,0,0);
         return dateTime;
     }
+    public static DateTime createDateTimeObject2(int day, int month, int year, String timezoneStr){
+        //get the timezone of the location, here we just explicitly set to Asia/Singapore
+        DateTimeZone timezone = DateTimeZone.forID(timezoneStr);
+        DateTime now = new DateTime();
+        now = now.withZone(timezone);
+        //create the datetiime object
+        DateTime dateTime = new DateTime(year,month,day,now.getHourOfDay(), now.getMinuteOfHour());
+        return dateTime.withZone(timezone);
+    }
 
     /**
      *
@@ -271,6 +297,55 @@ public class DateUtil {
             daysInMonthLabels.add(firstDay.toDateTimeAtStartOfDay());
         }
         return daysInMonthLabels;
+    }
+
+    public static final DateTime getTodayDateFromServerTimezone(DateTimeZone timezone){
+        DateTime now = new DateTime();
+        now = now.withZone(timezone);
+        now = now.withTimeAtStartOfDay();
+        return now;
+    }
+
+    /**
+     * @see  http://stackoverflow.com/questions/17692575/how-to-get-list-of-dates-between-two-dates
+     * @param start
+     * @param end
+     * @return
+     */
+    public static List<LocalDate> datesBetween(LocalDate start, LocalDate end) {
+        List<LocalDate> ret = new ArrayList<LocalDate>();
+        for (LocalDate date = start; !date.isBefore(end); date = date.plusDays(1)) {
+            ret.add(date);
+        }
+        return ret;
+    }
+
+    /**
+     * @see http://stackoverflow.com/questions/2689379/how-to-get-a-list-of-dates-between-two-dates-in-java
+     * @param start
+     * @param end
+     * @return
+     */
+    public static List<LocalDate> datesBetween(DateTime start, DateTime end) {
+        int days = Days.daysBetween(start, end).getDays();
+        List<LocalDate> dates = new ArrayList<LocalDate>(days);  // Set initial capacity to `days`.
+        for (int i=0; i < days; i++) {
+            DateTime d = start.withFieldAdded(DurationFieldType.days(), i);
+            dates.add(d.toLocalDate());
+        }
+        return dates;
+    }
+
+    public static final int getWeekCountInMonth(CalendarDay calendarDay){
+        Calendar calendar = calendarDay.getCalendar();
+        Log.d(TAG, "getWeekCountInMonth: val:"+calendar.getActualMaximum(Calendar.WEEK_OF_MONTH));
+        return calendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
+    }
+
+    public static final int getWeekCountInMonth(DateTime dateTime){
+        Calendar calendar = dateTime.toGregorianCalendar();
+        Log.d(TAG, "getWeekCountInMonth: val:"+calendar.getActualMaximum(Calendar.WEEK_OF_MONTH));
+        return calendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
     }
 
 }

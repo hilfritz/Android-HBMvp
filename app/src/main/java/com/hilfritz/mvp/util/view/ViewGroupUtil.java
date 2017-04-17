@@ -1,7 +1,10 @@
 package com.hilfritz.mvp.util.view;
 
+import android.os.Build;
+import android.support.design.widget.AppBarLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 
 /**
  * Created by Hilfritz Camallere on 13/2/17.
@@ -29,5 +32,17 @@ public class ViewGroupUtil {
         removeView(currentView);
         removeView(newView);
         parent.addView(newView, index);
+    }
+
+    public static void removeAppBarLayoutElevation(View appBarLayout){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            appBarLayout.setOutlineProvider(null);
+        }
+    }
+
+    public static void showRemovedAppBarLayoutElevation(AppBarLayout appBarLayout, ViewOutlineProvider viewOutlineProvider) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            appBarLayout.setOutlineProvider(viewOutlineProvider);
+        }
     }
 }
