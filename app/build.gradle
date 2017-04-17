@@ -92,6 +92,8 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.2.2'
     compile project(':mvp-framework')
 
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
