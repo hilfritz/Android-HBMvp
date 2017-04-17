@@ -12,6 +12,7 @@ import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BasePresenter;
 import com.hilfritz.mvp.framework.BasePresenterInterface;
+import com.hilfritz.mvp.framework.helper.AppVisibilityInterface;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
 import com.hilfritz.mvp.util.ConnectionUtil;
 import com.hilfritz.mvp.util.ExceptionUtil;
@@ -30,7 +31,7 @@ import timber.log.Timber;
  * PC name herdmacbook1
  */
 
-public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface{
+public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface, AppVisibilityInterface {
     public static final String TAG = "PlaceListPresenter";
 
     Subscription placeListSubscription;
@@ -57,6 +58,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
             Timber.d("__fmwk_bpi_init:  new activity");
             __fmwk_bpi_init_new();
+            this.activity.setAppVisibilityHandler(this);
         }else{
             Timber.d("__fmwk_bpi_init: configuration/orientation change");
             __fmwk_bpi_init_change();
@@ -185,5 +187,10 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     public Context getContext() {
         return context;
+    }
+
+    @Override
+    public void onAppSentToBackground() {
+        Timber.d("onAppSentToBackground: ");
     }
 }
