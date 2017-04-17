@@ -3,7 +3,8 @@ package com.hilfritz.mvp.util;
 import android.content.Context;
 import android.util.Log;
 
-import com.hilfritz.mvp.R;
+import com.herdhr.userapp.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -52,7 +53,7 @@ public class DateUtil {
         //DOING IT MANUALLY
         String retVal = "";
 
-        if (StringUtil.isStringEmpty(dateStr)){
+        if (StringUtils.isStringEmpty(dateStr)){
             return retVal;
         }
 
@@ -296,49 +297,6 @@ public class DateUtil {
             daysInMonthLabels.add(firstDay.toDateTimeAtStartOfDay());
         }
         return daysInMonthLabels;
-    }
-
-    public static final DateTime getTodayDateFromServerTimezone(DateTimeZone timezone){
-        DateTime now = new DateTime();
-        now = now.withZone(timezone);
-        now = now.withTimeAtStartOfDay();
-        return now;
-    }
-
-    /**
-     * @see  http://stackoverflow.com/questions/17692575/how-to-get-list-of-dates-between-two-dates
-     * @param start
-     * @param end
-     * @return
-     */
-    public static List<LocalDate> datesBetween(LocalDate start, LocalDate end) {
-        List<LocalDate> ret = new ArrayList<LocalDate>();
-        for (LocalDate date = start; !date.isBefore(end); date = date.plusDays(1)) {
-            ret.add(date);
-        }
-        return ret;
-    }
-
-    /**
-     * @see http://stackoverflow.com/questions/2689379/how-to-get-a-list-of-dates-between-two-dates-in-java
-     * @param start
-     * @param end
-     * @return
-     */
-    public static List<LocalDate> datesBetween(DateTime start, DateTime end) {
-        int days = Days.daysBetween(start, end).getDays();
-        List<LocalDate> dates = new ArrayList<LocalDate>(days);  // Set initial capacity to `days`.
-        for (int i=0; i < days; i++) {
-            DateTime d = start.withFieldAdded(DurationFieldType.days(), i);
-            dates.add(d.toLocalDate());
-        }
-        return dates;
-    }
-
-    public static final int getWeekCountInMonth(DateTime dateTime){
-        Calendar calendar = dateTime.toGregorianCalendar();
-        Log.d(TAG, "getWeekCountInMonth: val:"+calendar.getActualMaximum(Calendar.WEEK_OF_MONTH));
-        return calendar.getActualMaximum(Calendar.WEEK_OF_MONTH);
     }
 
 }
