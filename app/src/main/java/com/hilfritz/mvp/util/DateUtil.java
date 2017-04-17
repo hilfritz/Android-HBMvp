@@ -3,13 +3,10 @@ package com.hilfritz.mvp.util;
 import android.content.Context;
 import android.util.Log;
 
-import com.herdhr.userapp.R;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.hilfritz.mvp.R;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.Days;
-import org.joda.time.DurationFieldType;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -17,9 +14,7 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -53,7 +48,7 @@ public class DateUtil {
         //DOING IT MANUALLY
         String retVal = "";
 
-        if (StringUtils.isStringEmpty(dateStr)){
+        if (StringUtil.isStringEmpty(dateStr)){
             return retVal;
         }
 
