@@ -39,12 +39,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop: ");
         if (sessionDepth > 0)
             sessionDepth--;
         if (sessionDepth == 0) {
             // app went to background
-            Log.d(TAG, "onStop: app went to background");
+            Log.d(TAG, "onStop: [sessionDepth:"+sessionDepth+"] app went to background, implement AppVisibilityHandler.java interface to handle when app goes to background.");
             // TODO: 17/4/17 DO YOUR BROADCAST HERE TO HANDLE
             if (getAppVisibilityHandler()!=null){
                 getAppVisibilityHandler().onAppSentToBackground();

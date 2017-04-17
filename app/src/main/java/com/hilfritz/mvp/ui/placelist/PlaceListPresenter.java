@@ -50,7 +50,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     @Override
     public void __fmwk_bpi_init(BaseActivity activity, BaseFragment fragment) {
-        this.context = fragment.getContext();
+        this.context = fragment.getContext().getApplicationContext();
         this.activity = (PlaceListActivity) activity;
         Timber.tag(TAG);
         this.view = (PlaceListFragment)fragment;
