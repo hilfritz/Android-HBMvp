@@ -16,7 +16,10 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //http://stackoverflow.com/questions/20117884/android-studio-app-with-library-project-fails-to-build
+            //as a bug android studio builds your library projects in the release build type
+            //this causes the android framework classes and methods unavailable
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
