@@ -21,7 +21,7 @@ import timber.log.Timber;
 public class PlaceListActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

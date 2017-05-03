@@ -26,7 +26,7 @@ public class UserDetailActivity extends BaseActivity {
     Gson gson;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         (((MyApplication) getApplication()).getAppComponent()).inject(this);
         setContentView(R.layout.activity_user_detail);

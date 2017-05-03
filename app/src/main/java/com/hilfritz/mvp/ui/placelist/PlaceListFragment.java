@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class PlaceListFragment extends BaseFragment implements BaseFragmentInterface, PlaceListViewInterface{
+public class PlaceListFragment extends BaseFragment implements BaseFragmentInterface, PlaceListViewInterface {
     private static final String TAG = "PlaceListFragment";
     @Inject PlaceListPresenter presenter;
 

@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by hilfritz on 8/1/16.
+ * Created by Hilfritz Camallere on 23/3/16.
  */
 public class DateUtil {
     public static final String TAG = "DateUtil";
@@ -33,7 +33,9 @@ public class DateUtil {
     public static final String DISPLAY_DATE_FORMAT5 = "hh:mma "; //09:59AM
 
     public static final String DISPLAY_DATE_FORMAT6 = "MMM ''yy "; //JAN '16
-
+    public static final String DISPLAY_DATE_FORMAT7 = "hh:mmaa, dd MMM ''yy  "; //18:59, 11 Aug'15
+    public static final String DISPLAY_DATE_FORMAT8 = "dd";
+    public static final String DISPLAY_DATE_FORMAT9 = "MMM"; //JAN
 
     /**
      * transforms the Short names of the month to uppercase
@@ -106,6 +108,16 @@ public class DateUtil {
         DateTime zoned = dateTime.withZone(timeZone);
         DateTimeFormatter fmt = DateTimeFormat.forPattern(dateFormat).withZone(timeZone);
         return fmt.print(zoned);
+    }
+    /**
+     *
+     * @param dateTime DateTime the DateTime object to format
+     * @param dateFormat String ex yyyy-mm-dd
+     * @return String the formated date
+     */
+    public static String formatDate (DateTime dateTime, String dateFormat){
+        DateTimeFormatter fmt = DateTimeFormat.forPattern(dateFormat);
+        return fmt.print(dateTime);
     }
 
     /**
@@ -219,6 +231,15 @@ public class DateUtil {
         //create the datetiime object
         DateTime dateTime = new DateTime(year,month,day,0,0);
         return dateTime;
+    }
+    public static DateTime createDateTimeObject2(int day, int month, int year, String timezoneStr){
+        //get the timezone of the location, here we just explicitly set to Asia/Singapore
+        DateTimeZone timezone = DateTimeZone.forID(timezoneStr);
+        DateTime now = new DateTime();
+        now = now.withZone(timezone);
+        //create the datetiime object
+        DateTime dateTime = new DateTime(year,month,day,now.getHourOfDay(), now.getMinuteOfHour());
+        return dateTime.withZone(timezone);
     }
 
     /**

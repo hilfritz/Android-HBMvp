@@ -45,13 +45,13 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         EventBus.getDefault().unregister(this);
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         EventBus.getDefault().register(this);
         logd("onResume: ");
@@ -84,7 +84,7 @@ public class MainActivity extends BaseActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         (((MyApplication) getApplication()).getAppComponent()).inject(this);
 
