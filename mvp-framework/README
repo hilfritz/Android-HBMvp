@@ -1,4 +1,4 @@
-#Typical Presenter Setup:
+#### Typical Presenter Setup:
 * extend <i><b>BasePresenter.java</b></i>
 * prerequisite: must be setup and Injected to corresponding fragments by injection framework. (see the sample app)
 * implements <i><b>BasePresenterInterface</b></i>
