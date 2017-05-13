@@ -1,23 +1,62 @@
 # Android MVP
-This project illustrates a simple Model-View-Presenter architecture for Android applications and some boilerplate codes.
+This is a simple Model-View-Presenter architecture for Android applications and a few boilerplate codes.
 
 - This aims to help provide a good starting point when creating new Android projects using Model-View-Presenter architecture.
 - Has support for the different Android Lifecycle methods (e.g. onCreate(), onStop() ..
--
-
-Most my Android projects follow this code. Personally I created the library to help me get a jumpstart and same some time in setting up a new Android project.
+- 
 
 
+## Sample project
+
+The sample project is good usage of how the library is used. See the placelist package)
+
+[Sample here - see the <b>com.hilfritz.mvp.ui.placelist</b> package](https://github.com/hilfritz/Android-HBMvp/tree/development/app)
+
+- Features useful utility classes
+- Dependency Injection implementation for the Presenters using Dagger 2.0
+- Uses of event bus for interacting between different parts of the app
+- Fresco library for displaying the image 
+- Robolectirc setup for unit testing
+- Retrofit for rest api requests
+- Rxjava for multiple thread process (e.g. retrofit requests)
+
+
+Most my Android projects follow this code. Personally I created the library to help me get a code jumpstart and save some time in setting up a new Android project. 
 
 
 <be>
 ## Setup
 
-In your app's build.gradle:
+To use the library in your app, edit your app's build.gradle:
 ```gradle
 compile 'com.hilfritz:hbmvp:1.0.0'
 ```
 
+### Framework methods
+- starts with __
+ (like BasePresenter.java's method __fmwk_bp_isInitialLoad())
+- this distinction of naming methods was done in purpose to be able to easily spot normal methods from framework methods.
+
+
+
+### Version:
+- V1.0.0
+
+### License:
+- MIT
+
+### References:
+- Good MVP implementation - https://github.com/antoniolg/androidmvp
+- Refactoring Android App- https://www.youtube.com/watch?v=ZWYOy8E4jWo
+
+##
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+##
 ### Typical Presenter Setup:
 * extend <i><b>BasePresenter.java</b></i>
 * implement <i><b>BasePresenterInterface.java</b></i>
@@ -208,41 +247,4 @@ public class PlaceListFragment extends BaseFragment implements BaseFragmentInter
 }
 ```
 
-# (GitHub-Flavored) Markdown Editor
 
-Basic useful feature list:
-
- * Ctrl+S / Cmd+S to save the file
- * Ctrl+Shift+S / Cmd+Shift+S to choose to save as Markdown or HTML
- * Drag and drop a file into here to load it
- * File contents are saved in the URL so you can share files
-
-
-I'm no good at writing sample / filler text, so go write something yourself.
-
-Look, a list!
-
- * foo
- * bar
- * baz
-
-And here's some code! :+1:
-
-```javascript
-$(function(){
-  $('div').html('I am a div.');
-});
-```
-
-This is [on GitHub](https://github.com/jbt/markdown-editor) so let me know if I've b0rked it somewhere.
-
-
-Props to Mr. Doob and his [code editor](http://mrdoob.com/projects/code-editor/), from which
-the inspiration to this, and some handy implementation hints, came.
-
-### Stuff used to make this:
-
- * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
- * [CodeMirror](http://codemirror.net/) for the awesome syntax-highlighted editor
- * [highlight.js](http://softwaremaniacs.org/soft/highlight/en/) for syntax highlighting in output code blocks
- * [js-deflate](https://github.com/dankogai/js-deflate) for gzipping of data to make it fit in URLs
