@@ -49,14 +49,14 @@ compile 'com.hilfritz:hbmvp:1.0.0'
 - Good MVP implementation - https://github.com/antoniolg/androidmvp
 - Refactoring Android App- https://www.youtube.com/watch?v=ZWYOy8E4jWo
 
-##
+## -
 <br/>
 <br/>
 <br/>
 <br/>
 <br/>
 <br/>
-##
+## -
 ### Typical Presenter Setup:
 * extend <i><b>BasePresenter.java</b></i>
 * implement <i><b>BasePresenterInterface.java</b></i>
