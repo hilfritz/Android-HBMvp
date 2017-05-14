@@ -23,7 +23,7 @@ public class LoggerTest {
     LogFileManager logFileManager;
     @Before
     public void setup(){
-        logFileManager = new LogFileManager();
+        logFileManager = new LogFileManager(null);
         timberFileLogTree = new TimberFileLogTree(logFileManager);
 
 

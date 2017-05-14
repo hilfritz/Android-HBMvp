@@ -43,6 +43,8 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     RestApiManager apiManager;
     private ArrayList<Place> placeList = new ArrayList<Place>();
 
+    public PlaceListPresenter(){
+    }
     public PlaceListPresenter(MyApplication myApplication){
         //INITIALIZE INJECTION
         myApplication.getAppComponent().inject(this);
@@ -84,12 +86,16 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         if (__fmwk_bp_isFromRotation()){
             //IMPORTANT: CHECK
             Timber.d("__fmwk_bpi_populate: rotation detected.");
-            if (RxUtil.isSubscribed(placeListSubscription)){
+            if (isOnGoingRequest()){
                 view.showLoading(android.R.drawable.progress_horizontal, "Loading");
             }
             return;
         }
         callPlaceListApi();
+    }
+
+    public boolean isOnGoingRequest() {
+        return RxUtil.isSubscribed(placeListSubscription);
     }
 
     @Override
@@ -119,7 +125,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     public void callPlaceListApi(){
         Timber.d("callPlaceListApi: ");
-        if (!ConnectionUtil.isNetworkAvailable(getContext())){
+        if (!isNetworkAvailable()){
             Timber.d("callPlaceListApi: no network");
             view.showDialog("No Internet connection", android.R.drawable.ic_dialog_info, true, false);
             return;
@@ -159,6 +165,10 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                 });
     }
 
+    public boolean isNetworkAvailable() {
+        return ConnectionUtil.isNetworkAvailable(getContext());
+    }
+
     public ArrayList<Place> getPlaceList() {
         return placeList;
     }
@@ -192,5 +202,13 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     @Override
     public void onAppSentToBackground() {
         Timber.d("onAppSentToBackground: ");
+    }
+
+    public PlaceListViewInterface getView() {
+        return view;
+    }
+
+    public void setView(PlaceListViewInterface view) {
+        this.view = view;
     }
 }
