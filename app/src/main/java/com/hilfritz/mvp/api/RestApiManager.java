@@ -57,7 +57,7 @@ public class RestApiManager {
     }
 
     public Observable<List<UserWrapper>> getUsersSubscribable(){
-        return api.getUsersObservable()
+        return getApi().getUsersObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .delay(UserListPresenter.DELAY, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
@@ -65,7 +65,7 @@ public class RestApiManager {
     }
 
     public Observable<PlacesWrapper> getPlacesSubscribable(){
-        return api.getPlacesObservable()
+        return getApi().getPlacesObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .delay(5000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
@@ -73,7 +73,7 @@ public class RestApiManager {
     }
 
     public Call<PlacesWrapper> getPlacesCall(){
-        return api.getPlacesCall();
+        return getApi().getPlacesCall();
     }
 
 
@@ -85,5 +85,9 @@ public class RestApiManager {
         if (subscription!=null && subscription.isUnsubscribed()==false){
             subscription.unsubscribe();
         }
+    }
+
+    public RestApiInterface getApi() {
+        return api;
     }
 }

@@ -131,7 +131,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
             return;
         }
         view.showLoading(android.R.drawable.progress_horizontal, "Loading");
-        placeListSubscription = apiManager.getPlacesSubscribable()
+        placeListSubscription = getApiManager().getPlacesSubscribable()
                 .subscribe(new Subscriber<PlacesWrapper>() {
                     @Override
                     public void onCompleted() {
@@ -166,6 +166,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     }
 
     public boolean isNetworkAvailable() {
+        //return true;
         return ConnectionUtil.isNetworkAvailable(getContext());
     }
 
@@ -210,5 +211,13 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     public void setView(PlaceListViewInterface view) {
         this.view = view;
+    }
+
+    public RestApiManager getApiManager() {
+        return apiManager;
+    }
+
+    public void setApiManager(RestApiManager apiManager) {
+        this.apiManager = apiManager;
     }
 }

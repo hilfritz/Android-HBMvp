@@ -7,6 +7,13 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class PlacesWrapper {
+    public PlacesWrapper() {
+    }
+
+    public PlacesWrapper(List<Place> place) {
+
+        this.place = place;
+    }
 
     @SerializedName("place_list")
     @Expose
