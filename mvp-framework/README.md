@@ -10,7 +10,7 @@ This is a simple Model-View-Presenter architecture for Android applications and 
 
 The sample project is good usage of how the library is used. See the placelist package)
 
-[Sample here - see the <b>com.hilfritz.mvp.ui.placelist</b> package](https://github.com/hilfritz/Android-HBMvp/tree/development/app)
+[Sample - see the <b>com.hilfritz.mvp.ui.placelist</b> package](https://github.com/hilfritz/Android-HBMvp/tree/development/app/src/main/java/com/hilfritz/mvp/ui/placelist)
 
 - Features useful utility classes
 - Dependency Injection implementation for the Presenters using Dagger 2.0
@@ -24,7 +24,7 @@ The sample project is good usage of how the library is used. See the placelist p
 Most my Android projects follow this code. Personally I created the library to help me get a code jumpstart and save some time in setting up a new Android project. 
 
 
-<be>
+<br/>
 ## Setup
 
 To use the library in your app, edit your app's build.gradle:
