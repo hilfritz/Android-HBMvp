@@ -1,6 +1,6 @@
 # Android MVP (Java)
 
-This project shows a simple Android Project using [Model-View-Presenter Architecture pattern](https://github.com/hilfritz/Android-HBMvp/tree/development/mvp-framework):
+This project shows a simple Android Project using [Model-View-Presenter Architecture pattern](https://github.com/hilfritz/Android-HBMvp/tree/v1/mvp-framework):
 
 
 The sample project :
