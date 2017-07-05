@@ -1,6 +1,8 @@
 package com.hilfritz.mvp.framework;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -18,35 +20,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     AppVisibilityInterface appVisibilityHandler;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    /**
-     * IMPORTANT: FRAMEWORK METHOD
-     * Called whenever onCreate() is called
-     * @param savedInstanceState Bundle
-     * @param presenter {@link BasePresenter} - this parameter must be a subclass of
-     */
-    public void __fmwk_ba_checkIfNewActivity(Bundle savedInstanceState, BasePresenter presenter) {
-        if (savedInstanceState==null){
-            presenter.__fmwk_bp_setInitialLoad(true);
-        }else {
-            presenter.__fmwk_bp_setInitialLoad(false);
-        }
-    }
-
-    @Override
     public void onStop() {
         super.onStop();
         if (sessionDepth > 0)
             sessionDepth--;
         if (sessionDepth == 0) {
             // app went to background
-            Log.d(TAG, "onStop: [sessionDepth:"+sessionDepth+"] app went to background, implement AppVisibilityHandler.java interface to handle when app goes to background.");
             // TODO: 17/4/17 DO YOUR BROADCAST HERE TO HANDLE
+            Log.d(TAG, "onStop: [sessionDepth:"+sessionDepth+"] app went to background");
+
             if (getAppVisibilityHandler()!=null){
                 getAppVisibilityHandler().onAppSentToBackground();
+            }else{
+                Log.d(TAG, "onStop: [sessionDepth:"+sessionDepth+"] app went to background, implement AppVisibilityHandler.java interface to handle when app goes to background.");
+
             }
         }
     }
@@ -66,4 +53,17 @@ public abstract class BaseActivity extends AppCompatActivity {
     public AppVisibilityInterface getAppVisibilityHandler() {
         return appVisibilityHandler;
     }
+
+    /**
+     * see http://stackoverflow.com/questions/4238921/detect-whether-there-is-an-internet-connection-available-on-android
+     * @return
+     */
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+    }
+
 }

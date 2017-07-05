@@ -6,14 +6,11 @@ import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.RestApiManager;
 import com.hilfritz.mvp.api.pojo.places.Place;
 import com.hilfritz.mvp.api.pojo.places.PlacesWrapper;
-import com.hilfritz.mvp.application.MyApplication;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
-import com.hilfritz.mvp.util.ConnectionUtil;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -61,7 +58,7 @@ public class PlaceListTest {
         when(spypresenter.isOnGoingRequest()).thenReturn(true);
 
         //--------ACT
-        spypresenter.__fmwk_bpi_populate();
+        spypresenter.__populate();
 
         //--------ASSERT
         verify(spypresenter.getView(), times(1))
@@ -101,7 +98,7 @@ public class PlaceListTest {
         //when(spypresenter.isNetworkAvailable()).thenReturn(false);
 
         //--------ACT
-        spypresenter.__fmwk_bpi_populate();
+        spypresenter.__populate();
 
         //--------ASSERT
         verify(spypresenter.getView(), times(1))
@@ -155,7 +152,7 @@ public class PlaceListTest {
 
 
         //--------ACT
-        spypresenter.__fmwk_bpi_populate();
+        spypresenter.__populate();
 
 
 

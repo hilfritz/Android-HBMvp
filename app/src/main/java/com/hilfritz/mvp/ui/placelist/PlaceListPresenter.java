@@ -1,8 +1,6 @@
 package com.hilfritz.mvp.ui.placelist;
 
-import android.content.Context;
 import android.view.View;
-import android.widget.Toast;
 
 import com.hilfritz.mvp.api.RestApiManager;
 import com.hilfritz.mvp.api.pojo.places.Place;
@@ -12,9 +10,9 @@ import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BasePresenter;
 import com.hilfritz.mvp.framework.BasePresenterInterface;
+import com.hilfritz.mvp.framework.BasePresenterLifeCycleInterface;
 import com.hilfritz.mvp.framework.helper.AppVisibilityInterface;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
-import com.hilfritz.mvp.util.ConnectionUtil;
 import com.hilfritz.mvp.util.ExceptionUtil;
 import com.hilfritz.mvp.util.RxUtil;
 
@@ -22,8 +20,10 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
+import rx.schedulers.Schedulers;
 import timber.log.Timber;
 
 /**
@@ -31,13 +31,12 @@ import timber.log.Timber;
  * PC name herdmacbook1
  */
 
-public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface, AppVisibilityInterface {
+public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface, AppVisibilityInterface, BasePresenterLifeCycleInterface {
     public static final String TAG = "PlaceListPresenter";
-
     Subscription placeListSubscription;
     PlaceListViewInterface view;
-    Context context;
-    PlaceListActivity activity;
+    String dialogTag="dialogTag";
+    Scheduler mainThread;
 
     @Inject
     RestApiManager apiManager;
@@ -51,47 +50,39 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     }
 
     @Override
-    public void __fmwk_bpi_init(BaseActivity activity, BaseFragment fragment) {
-        this.context = fragment.getContext().getApplicationContext();
-        this.activity = (PlaceListActivity) activity;
+    public void __init(BaseActivity activity, BaseFragment fragment, Scheduler mainThread) {
+        this.mainThread = mainThread;
         Timber.tag(TAG);
         this.view = (PlaceListFragment)fragment;
-        if (__fmwk_bp_isInitialLoad()){
-
-            Timber.d("__fmwk_bpi_init:  new activity");
-            __fmwk_bpi_init_new();
-            this.activity.setAppVisibilityHandler(this);
+        this.view.initViews();
+        if (__isFirstTimeLoad()){
+            Timber.d("__init:  new activity");
+            __firstInit();
+            this.view.setAppVisibilityHandler(this);
         }else{
-            Timber.d("__fmwk_bpi_init: configuration/orientation change");
-            __fmwk_bpi_init_change();
+            Timber.d("__init: configuration/orientation change");
+            __isInitFromConfigurationChange();
         }
     }
 
     @Override
-    public void __fmwk_bpi_init_new() {
-        Timber.d("__fmwk_bpi_init_new: for new activity");
+    public void __firstInit() {
+        Timber.d("__firstInit: for new activity");
         placeList.clear();
         view.getAdapter().notifyDataSetChanged();
     }
 
     @Override
-    public void __fmwk_bpi_init_change() {
-        Timber.d("__fmwk_bpi_init_change: configuration change");
+    public void __isInitFromConfigurationChange() {
+        Timber.d("__isInitFromConfigurationChange: configuration change");
 
     }
 
     @Override
-    public void __fmwk_bpi_populate() {
-        Timber.d("__fmwk_bpi_populate: ");
-        if (__fmwk_bp_isFromRotation()){
-            //IMPORTANT: CHECK
-            Timber.d("__fmwk_bpi_populate: rotation detected.");
-            if (isOnGoingRequest()){
-                view.showLoading(android.R.drawable.progress_horizontal, "Loading");
-            }
-            return;
-        }
+    public void __populate() {
+        Timber.d("__populate: ");
         callPlaceListApi();
+        super.__populate();
     }
 
     public boolean isOnGoingRequest() {
@@ -99,39 +90,52 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     }
 
     @Override
-    public void __fmwk_bpi_resume() {
-        Timber.d("__fmwk_bpi_resume: ");
+    public void __onResume() {
+        Timber.d("__onResume: ");
     }
 
     @Override
-    public void __fmwk_bpi_pause() {
-        Timber.d("__fmwk_bpi_pause: ");
+    public void __onPause() {
+        Timber.d("__onPause: ");
     }
 
     @Override
-    public void __fmwk_bpi_destroy() {
-        Timber.d("__fmwk_bpi_destroy: ");
+    public void __onDestroy() {
+        Timber.d("__onDestroy: ");
         //THIS IS IMPORTANT, ONLY CANCEL/UNSUBSCRIBE YOUR PROCESSESS WHEN THE
         //ACTIVITY IS ACTUALLY FINISHING,
         //THIS WILL MAKE SURE YOUR PROCESSES ARE NOT CANCELLED WHEN THE DEVICE IS BEING ROTATED
-        if (!this.activity.isFinishing()) {
+        if (!this.view.isFinishing()) {
             return;
         }
         RxUtil.unsubscribe(placeListSubscription);
-        this.activity = null;
         this.view = null;
+
+    }
+
+    @Override
+    public void onActivityFinish() {
 
     }
 
     public void callPlaceListApi(){
         Timber.d("callPlaceListApi: ");
-        if (!isNetworkAvailable()){
+        if (!view.isNetworkAvailable()){
             Timber.d("callPlaceListApi: no network");
-            view.showDialog("No Internet connection", android.R.drawable.ic_dialog_info, true, false);
+            view.showDialog(dialogTag,"No Internet connection");
             return;
         }
-        view.showLoading(android.R.drawable.progress_horizontal, "Loading");
+
+        //IF PREVIOUSLY LOADED, DONT CALL THE API ANYMORE
+        if (__isFirstTimeLoad()==false && getPlaceList().size()>0){
+            view.hideLoading();
+            return;
+        }
+
+        view.showLoading();
         placeListSubscription = getApiManager().getPlacesSubscribable()
+                .subscribeOn(Schedulers.io())
+                .observeOn(mainThread)
                 .subscribe(new Subscriber<PlacesWrapper>() {
                     @Override
                     public void onCompleted() {
@@ -145,9 +149,9 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                         view.hideLoading();
                         e.printStackTrace();
                         if (ExceptionUtil.isNoNetworkException(e)){
-                            Toast.makeText(getContext(), "No Internet connection", Toast.LENGTH_SHORT).show();
+                            view.showDialog(dialogTag,"No Internet connection");
                         }else{
-                            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            view.showDialog(dialogTag,e.getMessage());
                         }
                     }
 
@@ -158,16 +162,11 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
                             if (placesWrapper.getPlace().size()>0){
                                 getPlaceList().clear();
                                 getPlaceList().addAll(placesWrapper.getPlace());
-                                view.getAdapter().notifyDataSetChanged();
+                                view.notifyDataSetChangedRecyeclerView();
                             }
                         }
                     }
                 });
-    }
-
-    public boolean isNetworkAvailable() {
-        //return true;
-        return ConnectionUtil.isNetworkAvailable(getContext());
     }
 
     public ArrayList<Place> getPlaceList() {
@@ -191,14 +190,9 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         }
         place.set__viewIsSelected(newVisibility);
         final int i = getPlaceList().indexOf(place);
-        //Timber.d("onListItemClick: i:"+i);
-        view.getAdapter().notifyItemChanged(i);
-        //fragment.getAdapter().notifyDataSetChanged();
+        view.notifyDataSetChangedRecyeclerView(i);
     }
 
-    public Context getContext() {
-        return context;
-    }
 
     @Override
     public void onAppSentToBackground() {

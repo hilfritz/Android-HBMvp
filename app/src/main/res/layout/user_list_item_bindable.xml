@@ -6,16 +6,12 @@
         <variable
             name="vm"
             type="com.hilfritz.mvp.api.pojo.UserWrapper"/>
-        <variable
-            name="presenter"
-            type="com.hilfritz.mvp.ui.contactlist.main.userlist.UserListPresenter"/>
 
     </data>
     <RelativeLayout android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/padding_a"
         android:id="@+id/relativeLayout"
-        android:onClick="@{()->presenter.onListItemClick(vm)}"
         >
         <TextView
             android:layout_width="match_parent"
