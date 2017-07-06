@@ -2,7 +2,7 @@ package com.hilfritz.mvp.api;
 
 import com.hilfritz.mvp.api.pojo.UserWrapper;
 import com.hilfritz.mvp.api.pojo.places.PlacesWrapper;
-import com.hilfritz.mvp.ui.contactlist.main.userlist.UserListPresenter;
+
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -57,23 +57,18 @@ public class RestApiManager {
     }
 
     public Observable<List<UserWrapper>> getUsersSubscribable(){
-        return api.getUsersObservable()
+        return getApi().getUsersObservable()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .delay(UserListPresenter.DELAY, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
                 ;
     }
 
     public Observable<PlacesWrapper> getPlacesSubscribable(){
-        return api.getPlacesObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .delay(5000, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
-                ;
+        return getApi().getPlacesObservable();
     }
 
     public Call<PlacesWrapper> getPlacesCall(){
-        return api.getPlacesCall();
+        return getApi().getPlacesCall();
     }
 
 
@@ -85,5 +80,9 @@ public class RestApiManager {
         if (subscription!=null && subscription.isUnsubscribed()==false){
             subscription.unsubscribe();
         }
+    }
+
+    public RestApiInterface getApi() {
+        return api;
     }
 }

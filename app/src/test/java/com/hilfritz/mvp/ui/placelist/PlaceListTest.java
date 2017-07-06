@@ -2,17 +2,23 @@ package com.hilfritz.mvp.ui.placelist;
 
 import com.hilfritz.mvp.BuildConfig;
 import com.hilfritz.mvp.MyApplicationTest;
+import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.RestApiManager;
-import com.hilfritz.mvp.application.MyApplication;
+import com.hilfritz.mvp.api.pojo.places.Place;
+import com.hilfritz.mvp.api.pojo.places.PlacesWrapper;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
-import com.hilfritz.mvp.util.ConnectionUtil;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.util.Collections;
+
+import rx.Observable;
+import rx.observers.TestSubscriber;
+
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyInt;
@@ -52,7 +58,7 @@ public class PlaceListTest {
         when(spypresenter.isOnGoingRequest()).thenReturn(true);
 
         //--------ACT
-        spypresenter.__fmwk_bpi_populate();
+        spypresenter.__populate();
 
         //--------ASSERT
         verify(spypresenter.getView(), times(1))
@@ -61,28 +67,98 @@ public class PlaceListTest {
                         anyString()
                        );
     }
-    /*
+
     @Test
     public void testNoNetworkAvailable(){
         //--------ARRANGE
+        class PlaceListPresenterNetWorkDynamic extends PlaceListPresenter{
+            boolean isNetworkAvailable = false;
+
+            public PlaceListPresenterNetWorkDynamic(boolean isNetworkAvailable) {
+                this.isNetworkAvailable = isNetworkAvailable;
+            }
+
+            @Override
+            public boolean isNetworkAvailable() {
+                return this.isNetworkAvailable;
+            }
+        }
+
         PlaceListViewInterface viewInterface = mock(PlaceListViewInterface.class);
-        PlaceListPresenter presenter = new PlaceListPresenter();
+        PlaceListPresenter presenter = new PlaceListPresenterNetWorkDynamic(false);
         presenter.setView(viewInterface);
 
         //WHEN: MOCK THE __ISFROMROTATION
         //USE SPY HERE, NORMAL "WHEN" ON THE ORIGINAL WON'T WORK
         //SPY IS USEFUL FOR MOCKING REAL OBJECT METHODS
         PlaceListPresenter spypresenter = spy(presenter);
-        when(spypresenter.__fmwk_bp_isFromRotation()).thenReturn(true);
-        when(spypresenter.isOnGoingRequest()).thenReturn(true);
-        when(spypresenter.isNetworkAvailable()).thenReturn(true);
+
+        when(spypresenter.__fmwk_bp_isFromRotation()).thenReturn(false);
+        when(spypresenter.isOnGoingRequest()).thenReturn(false);
+        //when(spypresenter.isNetworkAvailable()).thenReturn(false);
 
         //--------ACT
-        spypresenter.__fmwk_bpi_populate();
+        spypresenter.__populate();
 
         //--------ASSERT
         verify(spypresenter.getView(), times(1))
                 .showDialog(anyString(),anyInt(),anyBoolean(), anyBoolean());
     }
-    */
+
+    //@Test
+    public void testEmptyLocationList(){
+        //SEE
+        //http://stackoverflow.com/questions/39827081/unit-testing-android-application-with-retrofit-and-rxjava/39828581#39828581
+        //--------ARRANGE/GIVEN
+        class PlaceListPresenterNetWorkDynamic extends PlaceListPresenter{
+            boolean isNetworkAvailable = false;
+
+            public PlaceListPresenterNetWorkDynamic(boolean isNetworkAvailable) {
+                this.isNetworkAvailable = isNetworkAvailable;
+            }
+
+            @Override
+            public boolean isNetworkAvailable() {
+                return this.isNetworkAvailable;
+            }
+        }
+
+
+        RestApiInterface mockApiInterface = mock(RestApiInterface.class);
+        RestApiManager mockRestApiManager = mock(RestApiManager.class);
+        PlaceListViewInterface viewInterface = mock(PlaceListViewInterface.class);
+        PlaceListPresenter presenter = new PlaceListPresenterNetWorkDynamic(true);
+        presenter.setView(viewInterface);
+
+        //WHEN: MOCK THE __ISFROMROTATION
+        //USE SPY HERE, NORMAL "WHEN" ON THE ORIGINAL WON'T WORK
+        //SPY IS USEFUL FOR MOCKING REAL OBJECT METHODS
+        PlaceListPresenter spypresenter = spy(presenter);
+        RestApiManager spyapimanager = spy(mockRestApiManager);
+        when(spypresenter.__fmwk_bp_isFromRotation()).thenReturn(false);
+        when(spypresenter.isOnGoingRequest()).thenReturn(false);
+
+        spypresenter.setApiManager(spyapimanager);
+        when(spypresenter.getApiManager().getApi()).thenReturn(mockApiInterface);
+
+        TestSubscriber<PlacesWrapper> pw= new TestSubscriber<PlacesWrapper>();
+
+        when(mockApiInterface.getPlacesObservable()).thenReturn(Observable.just(new PlacesWrapper(Collections.<Place>emptyList())));
+        mockApiInterface.getPlacesObservable().subscribe(pw);
+        //mockApiInterface.getPlacesObservable().subscribe();
+
+        pw.assertCompleted();
+
+
+
+        //--------ACT
+        spypresenter.__populate();
+
+
+
+        //--------ASSERT/THEN
+        verify(spypresenter.getView(), times(1))
+                .hideLoading();
+    }
+
 }

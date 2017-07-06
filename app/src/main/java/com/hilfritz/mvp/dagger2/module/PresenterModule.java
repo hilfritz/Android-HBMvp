@@ -1,8 +1,6 @@
 package com.hilfritz.mvp.dagger2.module;
 
 import com.hilfritz.mvp.application.MyApplication;
-import com.hilfritz.mvp.ui.contactlist.detail.UserDetailFragmentPresenter;
-import com.hilfritz.mvp.ui.contactlist.main.userlist.UserListPresenter;
 import com.hilfritz.mvp.ui.placelist.PlaceListPresenter;
 
 import javax.inject.Singleton;
@@ -24,17 +22,6 @@ public class PresenterModule {
     }
 
     //FRAGMENTS HERE
-    @Provides
-    @Singleton
-    UserDetailFragmentPresenter provideUserDetailPresenter(){
-        return new UserDetailFragmentPresenter();
-    }
-    @Provides
-    @Singleton
-    UserListPresenter provideUserListPresenter(){
-        return new UserListPresenter(myApplication);
-    }
-
     @Provides
     @Singleton
     PlaceListPresenter providePlaceListPresenter(){

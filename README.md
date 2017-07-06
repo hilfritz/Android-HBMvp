@@ -1,20 +1,11 @@
-Android-HBMvp
+# Android MVP (Java)
 
-Disc
-
-
-
-Timber
-https://caster.io/episodes/episode-14-logging-with-timber/
+This project shows a simple Android Project using [Model-View-Presenter Architecture pattern](https://github.com/hilfritz/Android-HBMvp/tree/v1/mvp-framework):
 
 
-RELEASE
+The sample project :
+ * contains useful utility methods
+ * uses RxJava handling processes like network requests
+ * uses these popular libraries: LeakCanary, Fresco, Greenrobot (Eventbus), RxJava, Robolectric (Unit testing), Timber (Logging), Butterknife, Dagger 2, ...
 
-  FOR PUBLISHING TO JCENTER see: https://medium.com/@daniellevass/how-to-publish-your-android-studio-library-to-jcenter-5384172c4739
-  Notes:
-  1. Ended up renaming the tasks inside android-release-aar.gradle, added suffix 'A' to most of them
-  - according to the article below, you can not create another existing task
-  - http://stackoverflow.com/a/11159071/2412615
-  2. Ran the following code inside the library project:
-      ./gradlew clean build generateRelease
-      * - if you get permission denied, try to run command "chmod +x gradlew"
+To get more details of the MVP pattern code used in the project see [here on GitHub](https://github.com/hilfritz/Android-HBMvp/tree/v1/mvp-framework) for the structure of the code.
