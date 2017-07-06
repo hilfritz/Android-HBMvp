@@ -23,4 +23,7 @@ public interface PlaceListViewInterface  extends BaseViewInterface{
     public void notifyDataSetChangedRecyeclerView(int index);
     public RecyclerView getRecyclerView();
     public boolean isNetworkAvailable();
+    public int getScreenWidth();
+    public int getImageWidthByColumnCount(int columnCount);
+    public int getImageHeightByColumnCount(int columnCount);
 }
