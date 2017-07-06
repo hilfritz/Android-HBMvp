@@ -102,6 +102,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
 
     @Override
     public void __onDestroy() {
+
         Timber.d("__onDestroy: ");
         //THIS IS IMPORTANT, ONLY CANCEL/UNSUBSCRIBE YOUR PROCESSESS WHEN THE
         //ACTIVITY IS ACTUALLY FINISHING,
@@ -109,6 +110,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         if (!view.isFinishing()) {
             return;
         }
+        super.__onDestroy();
         RxUtil.unsubscribe(placeListSubscription);
         this.view = null;
 
