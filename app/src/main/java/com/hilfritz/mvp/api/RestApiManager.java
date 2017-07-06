@@ -79,7 +79,7 @@ public class RestApiManager implements RestApiInterface{
 
     @Override
     public Observable<PlacesWrapper> getPlacesObservable() {
-        return null;
+        return getApi().getPlacesObservable();
     }
 
     public Call<PlacesWrapper> getPlacesCall(){

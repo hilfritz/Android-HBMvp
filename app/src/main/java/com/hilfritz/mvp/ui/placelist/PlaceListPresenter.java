@@ -33,7 +33,7 @@ import timber.log.Timber;
  * PC name herdmacbook1
  */
 
-public class PlaceListPresenter extends BasePresenter implements PlaceListPresenterInterface, BasePresenterInterface, AppVisibilityInterface, BasePresenterLifeCycleInterface {
+public class PlaceListPresenter extends BasePresenter implements PlaceListPresenterInterface, AppVisibilityInterface, BasePresenterLifeCycleInterface {
     public static final String TAG = "PlaceListPresenter";
     Subscription placeListSubscription;
     PlaceListViewInterface view;
@@ -70,7 +70,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
     public void __firstInit() {
         Timber.d("__firstInit: for new activity");
         placeList.clear();
-        view.getAdapter().notifyDataSetChanged();
+        view.notifyDataSetChangedRecyeclerView();
     }
 
     @Override
@@ -106,7 +106,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         //THIS IS IMPORTANT, ONLY CANCEL/UNSUBSCRIBE YOUR PROCESSESS WHEN THE
         //ACTIVITY IS ACTUALLY FINISHING,
         //THIS WILL MAKE SURE YOUR PROCESSES ARE NOT CANCELLED WHEN THE DEVICE IS BEING ROTATED
-        if (!this.view.isFinishing()) {
+        if (!view.isFinishing()) {
             return;
         }
         RxUtil.unsubscribe(placeListSubscription);

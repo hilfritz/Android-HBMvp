@@ -157,7 +157,6 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
         return 0;
     }
 
-
     @Override
     public void findViews() {
 
