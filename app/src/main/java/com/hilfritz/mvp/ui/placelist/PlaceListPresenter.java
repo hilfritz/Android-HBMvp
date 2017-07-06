@@ -2,6 +2,7 @@ package com.hilfritz.mvp.ui.placelist;
 
 import android.view.View;
 
+import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.RestApiManager;
 import com.hilfritz.mvp.api.pojo.places.Place;
 import com.hilfritz.mvp.api.pojo.places.PlacesWrapper;
@@ -12,6 +13,7 @@ import com.hilfritz.mvp.framework.BasePresenter;
 import com.hilfritz.mvp.framework.BasePresenterInterface;
 import com.hilfritz.mvp.framework.BasePresenterLifeCycleInterface;
 import com.hilfritz.mvp.framework.helper.AppVisibilityInterface;
+import com.hilfritz.mvp.ui.placelist.helper.PlaceListPresenterInterface;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
 import com.hilfritz.mvp.util.ExceptionUtil;
 import com.hilfritz.mvp.util.RxUtil;
@@ -31,15 +33,14 @@ import timber.log.Timber;
  * PC name herdmacbook1
  */
 
-public class PlaceListPresenter extends BasePresenter implements BasePresenterInterface, AppVisibilityInterface, BasePresenterLifeCycleInterface {
+public class PlaceListPresenter extends BasePresenter implements PlaceListPresenterInterface, BasePresenterInterface, AppVisibilityInterface, BasePresenterLifeCycleInterface {
     public static final String TAG = "PlaceListPresenter";
     Subscription placeListSubscription;
     PlaceListViewInterface view;
     String dialogTag="dialogTag";
     Scheduler mainThread;
+    RestApiInterface apiManager;
 
-    @Inject
-    RestApiManager apiManager;
     private ArrayList<Place> placeList = new ArrayList<Place>();
 
     public PlaceListPresenter(){
@@ -84,7 +85,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         callPlaceListApi();
         super.__populate();
     }
-
+    @Override
     public boolean isOnGoingRequest() {
         return RxUtil.isSubscribed(placeListSubscription);
     }
@@ -118,6 +119,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
 
     }
 
+    @Override
     public void callPlaceListApi(){
         Timber.d("callPlaceListApi: ");
         if (!view.isNetworkAvailable()){
@@ -133,7 +135,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         }
 
         view.showLoading();
-        placeListSubscription = getApiManager().getPlacesSubscribable()
+        placeListSubscription = getApiManager().getPlacesObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainThread)
                 .subscribe(new Subscriber<PlacesWrapper>() {
@@ -172,11 +174,7 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
     public ArrayList<Place> getPlaceList() {
         return placeList;
     }
-
-    public void setPlaceList(ArrayList<Place> place) {
-        this.placeList = place;
-    }
-
+    @Override
     public void onListItemClick(Place place){
         int newVisibility = View.GONE;
         if (place.get__viewIsSelected()==View.GONE) {
@@ -207,11 +205,11 @@ public class PlaceListPresenter extends BasePresenter implements BasePresenterIn
         this.view = view;
     }
 
-    public RestApiManager getApiManager() {
+    public RestApiInterface getApiManager() {
         return apiManager;
     }
 
-    public void setApiManager(RestApiManager apiManager) {
+    public void setApiManager(RestApiInterface apiManager) {
         this.apiManager = apiManager;
     }
 }

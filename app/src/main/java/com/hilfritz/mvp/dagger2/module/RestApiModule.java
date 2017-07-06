@@ -1,5 +1,6 @@
 package com.hilfritz.mvp.dagger2.module;
 
+import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.RestApiManager;
 
 import javax.inject.Singleton;
@@ -14,7 +15,7 @@ import dagger.Provides;
 public class RestApiModule {
     @Provides
     @Singleton
-    RestApiManager provideRestApi(){
+    RestApiInterface provideRestApi(){
         return new RestApiManager();
     }
 

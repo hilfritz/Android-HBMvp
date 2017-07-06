@@ -22,7 +22,7 @@ import rx.schedulers.Schedulers;
  * see https://guides.codepath.com/android/Consuming-APIs-with-Retrofit
  */
 
-public class RestApiManager {
+public class RestApiManager implements RestApiInterface{
     public static final String BASE_URL = "http://jsonplaceholder.typicode.com";
     public static final String USERS_URL = BASE_URL+"/users";
     //public static final String PLACES_URL = "https://github.com/hilfritz/Android-HBMvp/blob/development/temp/places/places.json";
@@ -65,6 +65,21 @@ public class RestApiManager {
 
     public Observable<PlacesWrapper> getPlacesSubscribable(){
         return getApi().getPlacesObservable();
+    }
+
+    @Override
+    public List<UserWrapper> getUsers() {
+        return null;
+    }
+
+    @Override
+    public Observable<List<UserWrapper>> getUsersObservable() {
+        return null;
+    }
+
+    @Override
+    public Observable<PlacesWrapper> getPlacesObservable() {
+        return null;
     }
 
     public Call<PlacesWrapper> getPlacesCall(){

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hilfritz.mvp.R;
+import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.pojo.places.Place;
 import com.hilfritz.mvp.application.MyApplication;
 import com.hilfritz.mvp.framework.BaseActivity;
@@ -38,6 +39,9 @@ public class PlaceListFragment extends BaseFragment implements BaseViewInterface
     @BindView(R.id.list_view)
     RecyclerView listView;
 
+    @Inject
+    RestApiInterface apiManager;
+
     PlaceListAdapter adapter;
 
     public PlaceListFragment() {
@@ -57,6 +61,7 @@ public class PlaceListFragment extends BaseFragment implements BaseViewInterface
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
         Timber.d("onCreateView:");
         ButterKnife.bind(this, view);
+        presenter.setApiManager(apiManager);
         presenter.__init((BaseActivity) getActivity(), this, AndroidSchedulers.mainThread());
         return view;
     }
