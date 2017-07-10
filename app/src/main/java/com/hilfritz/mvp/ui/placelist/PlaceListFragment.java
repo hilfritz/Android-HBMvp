@@ -220,4 +220,10 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
         ((BaseActivity)getActivity()).setAppVisibilityHandler(appVisibilityInterface);
     }
 
+    @Override
+    public String getStringById(int stringId) {
+        return getString(stringId);
+    }
+
+
 }

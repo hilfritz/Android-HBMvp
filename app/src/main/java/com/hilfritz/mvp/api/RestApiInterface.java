@@ -7,6 +7,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -21,7 +23,12 @@ public interface RestApiInterface {
     Observable<List<UserWrapper>> getUsersObservable();
 
     @GET(RestApiManager.PLACES_URL)
-    Observable<PlacesWrapper> getPlacesObservable();
+    Observable<PlacesWrapper> getPlacesObservable(
+            @Header("header_access_token") String accessToken,
+            @Query("page") int page
+
+    );
+
     @GET(RestApiManager.PLACES_URL)
     Call<PlacesWrapper> getPlacesCall();
 

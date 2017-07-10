@@ -2,16 +2,15 @@ package com.hilfritz.mvp.ui.placelist;
 
 import android.view.View;
 
+import com.hilfritz.mvp.R;
 import com.hilfritz.mvp.api.RestApiInterface;
-import com.hilfritz.mvp.api.RestApiManager;
 import com.hilfritz.mvp.api.pojo.places.Place;
 import com.hilfritz.mvp.api.pojo.places.PlacesWrapper;
 import com.hilfritz.mvp.application.MyApplication;
 import com.hilfritz.mvp.framework.BaseActivity;
-import com.hilfritz.mvp.framework.BaseFragment;
 import com.hilfritz.mvp.framework.BasePresenter;
-import com.hilfritz.mvp.framework.BasePresenterInterface;
 import com.hilfritz.mvp.framework.BasePresenterLifeCycleInterface;
+import com.hilfritz.mvp.framework.BaseViewInterface;
 import com.hilfritz.mvp.framework.helper.AppVisibilityInterface;
 import com.hilfritz.mvp.ui.placelist.helper.PlaceListPresenterInterface;
 import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
@@ -19,8 +18,6 @@ import com.hilfritz.mvp.util.ExceptionUtil;
 import com.hilfritz.mvp.util.RxUtil;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 import rx.Scheduler;
 import rx.Subscriber;
@@ -37,7 +34,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
     public static final String TAG = "PlaceListPresenter";
     Subscription placeListSubscription;
     PlaceListViewInterface view;
-    String dialogTag="dialogTag";
+    public static final String DIALOG_TAG ="DIALOG_TAG";
     Scheduler mainThread;
     RestApiInterface apiManager;
 
@@ -51,10 +48,10 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
     }
 
     @Override
-    public void __init(BaseActivity activity, BaseFragment fragment, Scheduler mainThread) {
+    public void __init(BaseActivity activity, BaseViewInterface view, Scheduler mainThread) {
         this.mainThread = mainThread;
         Timber.tag(TAG);
-        this.view = (PlaceListFragment)fragment;
+        this.view = (PlaceListViewInterface) view;
         this.view.initViews();
         if (__isFirstTimeLoad()){
             Timber.d("__init:  new activity");
@@ -126,7 +123,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         Timber.d("callPlaceListApi: ");
         if (!view.isNetworkAvailable()){
             Timber.d("callPlaceListApi: no network");
-            view.showDialog(dialogTag,"No Internet connection");
+            view.showDialog(DIALOG_TAG,view.getStringById(R.string.label_no_internet));
             return;
         }
 
@@ -137,7 +134,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         }
 
         view.showLoading();
-        placeListSubscription = getApiManager().getPlacesObservable()
+        placeListSubscription = getApiManager().getPlacesObservable("", 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(mainThread)
                 .subscribe(new Subscriber<PlacesWrapper>() {
@@ -153,21 +150,22 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
                         view.hideLoading();
                         e.printStackTrace();
                         if (ExceptionUtil.isNoNetworkException(e)){
-                            view.showDialog(dialogTag,"No Internet connection");
+                            view.showDialog(DIALOG_TAG,view.getStringById(R.string.label_no_internet));
                         }else{
-                            view.showDialog(dialogTag,e.getMessage());
+                            view.showDialog(DIALOG_TAG,e.getMessage());
                         }
                     }
 
                     @Override
                     public void onNext(PlacesWrapper placesWrapper) {
                         Timber.d("callPlaceListApi: onNext: ");
-                        if (placesWrapper!=null){
-                            if (placesWrapper.getPlace().size()>0){
+                        if (placesWrapper!=null && placesWrapper.getPlace()!=null && placesWrapper.getPlace().size()>0){
                                 getPlaceList().clear();
                                 getPlaceList().addAll(placesWrapper.getPlace());
                                 view.notifyDataSetChangedRecyeclerView();
-                            }
+                                view.showList();
+                        }else{
+                            view.showErrorFullScreen(view.getStringById(R.string.label_no_data));
                         }
                     }
                 });

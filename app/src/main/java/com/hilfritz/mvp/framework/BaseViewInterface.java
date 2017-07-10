@@ -19,4 +19,5 @@ public interface BaseViewInterface {
     public void hideDialog(String tag, String message);
     public boolean isFinishing();
     public void setAppVisibilityHandler(AppVisibilityInterface appVisibilityInterface);
+    public String getStringById(int stringId);
 }

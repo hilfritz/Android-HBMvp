@@ -63,10 +63,6 @@ public class RestApiManager implements RestApiInterface{
                 ;
     }
 
-    public Observable<PlacesWrapper> getPlacesSubscribable(){
-        return getApi().getPlacesObservable();
-    }
-
     @Override
     public List<UserWrapper> getUsers() {
         return null;
@@ -78,8 +74,8 @@ public class RestApiManager implements RestApiInterface{
     }
 
     @Override
-    public Observable<PlacesWrapper> getPlacesObservable() {
-        return getApi().getPlacesObservable();
+    public Observable<PlacesWrapper> getPlacesObservable(String accessToken, int page) {
+        return getApi().getPlacesObservable(accessToken, page);
     }
 
     public Call<PlacesWrapper> getPlacesCall(){
