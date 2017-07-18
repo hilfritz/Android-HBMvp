@@ -1,8 +1,11 @@
 package com.hilfritz.mvp.ui.placelist;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +13,8 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.hilfritz.mvp.R;
 import com.hilfritz.mvp.api.RestApiInterface;
@@ -109,9 +114,6 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
 
     @Override
     public void reInitializeRecyclerView(ArrayList<Place> placeArrayList, PlaceListPresenter presenter) {
-
-
-
         adapter = new PlaceListAdapter(presenter.getPlaceList(), presenter);
         listView.setAdapter(getAdapter());
     }
@@ -158,6 +160,42 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     }
 
     @Override
+    public void showPlaceDetailDialog(final Place place) {
+        final Dialog dialog = new Dialog(getActivity());
+        final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_yes_no, null);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(dialogView);
+        final TextView viewById = (TextView) dialogView.findViewById(R.id.message);
+        viewById.setText("Continue saving "+place.getName()+"?");
+        dialogView.findViewById(R.id.left_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSaveClickPlaceDetailDialog(place, dialog);
+            }
+        });
+
+        dialogView.findViewById(R.id.right_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCancelClickPlaceDetailDialog(place, dialog);
+            }
+        });
+
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+    @Override
+    public void onSaveClickPlaceDetailDialog(Place place, Dialog dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void onCancelClickPlaceDetailDialog(Place place, Dialog dialog) {
+        dialog.dismiss();
+    }
+
+    @Override
     public void findViews() {
 
     }
@@ -174,7 +212,7 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
 
         } else{
             columnCount = 2;
-            listView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+            listView.setLayoutManager(new GridLayoutManager(getActivity(), columnCount));
         }
 
 
@@ -206,8 +244,14 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     }
 
     @Override
-    public void hideDialog(String tag, String message) {
-
+    public void hideDialog(String tag) {
+        Fragment prev = getFragmentManager().findFragmentByTag("fragment_dialog");
+        if (prev != null) {
+            DialogFragment df = (DialogFragment) prev;
+            if (df.isHidden()==false) {
+                df.dismiss();
+            }
+        }
     }
 
     @Override

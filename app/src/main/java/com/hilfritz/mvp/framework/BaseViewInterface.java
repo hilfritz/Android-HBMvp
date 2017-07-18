@@ -16,7 +16,7 @@ public interface BaseViewInterface {
     public void hideLoading();
     public void showErrorFullScreen(String message);
     public void showDialog(String tag, String message);
-    public void hideDialog(String tag, String message);
+    public void hideDialog(String tag);
     public boolean isFinishing();
     public void setAppVisibilityHandler(AppVisibilityInterface appVisibilityInterface);
     public String getStringById(int stringId);

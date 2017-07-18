@@ -11,7 +11,8 @@ import com.hilfritz.mvp.ui.placelist.view.PlaceListViewInterface;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.robolectric.Robolectric;
+import org.robolectric.util.ActivityController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,13 +21,11 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.functions.Func1;
 import rx.plugins.RxJavaHooks;
-import rx.plugins.RxJavaPlugins;
 import rx.schedulers.Schedulers;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -70,6 +69,7 @@ public class PlacesPresenterTest extends AndroidTest {
         presenter.__init(null,  view, Schedulers.trampoline());
         presenter.apiManager = apiManager;
 
+
         //exceptionPlacesWrapper = throw Exception(EXCEPTION_MESSAGE1);
     }
 
@@ -81,7 +81,42 @@ public class PlacesPresenterTest extends AndroidTest {
         verify(view, atLeastOnce()).showLoading();
         verify(view, atLeastOnce()).showList();
         verify(view).hideLoading();
+
+        //assertTrue(view.getAdapter().getItemCount()==3);
     }
+
+    @Test
+    public void loadAllPlacesThenClickListItemTest(){
+        //when(apiManager.getPlacesObservable(anyString(), anyInt())).thenReturn(Observable.just(manyPlacesWrapper));
+        //when(view.isNetworkAvailable()).thenReturn(Boolean.TRUE);
+        //verify(view, atLeastOnce()).showLoading();
+        //verify(view, atLeastOnce()).showList();
+        //verify(view).hideLoading();
+
+
+
+        ActivityController<PlaceListActivity> activityController = Robolectric.buildActivity(PlaceListActivity.class);
+
+
+        view = new PlaceListFragment();
+
+        when(apiManager.getPlacesObservable(anyString(), anyInt())).thenReturn(Observable.just(manyPlacesWrapper));
+        when(view.isNetworkAvailable()).thenReturn(Boolean.TRUE);
+        activityController.get()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .add((PlaceListFragment)view, null)
+                .commit();
+
+
+        activityController.create().start().resume();
+
+
+        view.getRecyclerView().measure(0,0);
+        view.getRecyclerView().layout(0, 0, 100, 10000);
+
+    }
+
     @Test
     public void loadEmptyPlaceTest(){
         when(apiManager.getPlacesObservable(anyString(), anyInt())).thenReturn(Observable.just(emptyPlacesWrapper));

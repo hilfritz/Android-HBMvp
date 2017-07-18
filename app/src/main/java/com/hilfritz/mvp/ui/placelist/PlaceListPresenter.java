@@ -180,7 +180,7 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         if (place.get__viewIsSelected()==View.GONE) {
             newVisibility = View.VISIBLE;
             Timber.d("onListItemClick: "+place.getName()+" selected");
-
+            view.showPlaceDetailDialog(place);
         }
         if (place.get__viewIsSelected()==View.VISIBLE) {
             newVisibility = View.GONE;
@@ -189,6 +189,8 @@ public class PlaceListPresenter extends BasePresenter implements PlaceListPresen
         place.set__viewIsSelected(newVisibility);
         final int i = getPlaceList().indexOf(place);
         view.notifyDataSetChangedRecyeclerView(i);
+
+
     }
 
 

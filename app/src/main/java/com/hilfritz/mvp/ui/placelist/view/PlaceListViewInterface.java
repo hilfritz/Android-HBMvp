@@ -1,8 +1,8 @@
 package com.hilfritz.mvp.ui.placelist.view;
 
+import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
 
-import com.hilfritz.mvp.api.RestApiInterface;
 import com.hilfritz.mvp.api.pojo.places.Place;
 import com.hilfritz.mvp.framework.BaseViewInterface;
 import com.hilfritz.mvp.ui.placelist.PlaceListPresenter;
@@ -27,5 +27,8 @@ public interface PlaceListViewInterface  extends BaseViewInterface{
     public int getScreenWidth();
     public int getImageWidthByColumnCount(int columnCount);
     public int getImageHeightByColumnCount(int columnCount);
+    void showPlaceDetailDialog(Place place);
+    void onSaveClickPlaceDetailDialog(Place place, Dialog dialog);
+    void onCancelClickPlaceDetailDialog(Place place, Dialog dialog);
 
 }
