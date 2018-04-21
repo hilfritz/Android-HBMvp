@@ -33,8 +33,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
- * Created by home on 7/8/2017.
- *  * common error: https://github.com/robolectric/robolectric/issues/2949
+ * Created by Hilfritz Camallere on 7/8/2017.
+ * common error: https://github.com/robolectric/robolectric/issues/2949
  * http://www.vogella.com/tutorials/Mockito/article.html
  */
 

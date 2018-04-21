@@ -10,6 +10,7 @@ import com.hilfritz.mvp.framework.BaseActivity;
 import com.hilfritz.mvp.ui.dialog.SimpleDialog;
 import com.hilfritz.mvp.ui.placelist.PlaceListFragment;
 import com.hilfritz.mvp.ui.placelist.PlaceListPresenter;
+import com.hilfritz.mvp.ui.psi.PsiMapActivityFragment;
 
 import javax.inject.Singleton;
 
@@ -31,7 +32,7 @@ public interface AppComponent {
     void inject(PlaceListPresenter presenter);
     void inject(BaseActivity baseActivity);
     void inject(SimpleDialog simpleDialog);
-
+    void inject(PsiMapActivityFragment simpleDialog);
 
     //void inject(ImageCache imageCache);
     //void inject(LogFileManager logFileManager);
