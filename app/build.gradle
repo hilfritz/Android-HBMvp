@@ -2,8 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "com.hilfritz.mvp"
         minSdkVersion 15
@@ -28,51 +28,50 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:multidex:1.0.1'
-    compile "com.android.support:appcompat-v7:$android_support_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:appcompat-v7:$android_support_version"
+    implementation "com.android.support:support-core-utils:27.1.1"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
 
-    /*
-                                            compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha2'
-                                            */
-    compile 'com.jakewharton:butterknife:8.5.1'
-    compile 'com.android.support.constraint:constraint-layout:1.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-    compile 'com.jakewharton.timber:timber:4.5.1'
+    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
 
     /**
      * Reactive (Rx) libraries
+     *
      */
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    implementation 'io.reactivex:rxandroid:1.2.1'
+    implementation 'io.reactivex:rxjava:1.2.3'
 
     /**
      * Retrofit library
      */
-    compile "com.squareup.retrofit2:retrofit:$retrofit2_version"
-    compile "com.squareup.okhttp3:okhttp-urlconnection:$okhttp3_version"
-    compile "com.squareup.okhttp3:okhttp:$okhttp3_version"
-    compile "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
-    compile "com.squareup.retrofit2:adapter-rxjava:$retrofit2_version"
-    compile "com.squareup.retrofit2:converter-gson:$retrofit2_version"
-    compile 'joda-time:joda-time:2.9.7'
-    compile "com.android.support:support-v4:$android_support_version"
-    /*
-    compile "com.android.support:design:$android_support_version"
-    */
-    testCompile 'junit:junit:4.12'
+    implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:$okhttp3_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp3_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation 'joda-time:joda-time:2.9.7'
+    implementation "com.android.support:support-v4:$android_support_version"
+    implementation "com.android.support:design:$android_support_version"
+
+    testImplementation 'junit:junit:4.12'
 
     /**
      * TESTS
      * https://stackoverflow.com/questions/40696796/android-how-to-use-espresso-2-2-2-with-support-25-0-0
      */
-    androidTestCompile "com.android.support:support-annotations:$android_support_version"
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation "com.android.support:support-annotations:$android_support_version"
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude module: 'rules'
         exclude module: 'javax.annotation-api'
         exclude module: 'support-annotations'
     })
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:2.2.2') {
         exclude module: 'espresso-core'
         exclude module: 'support-v4'
         exclude module: 'recyclerview-v7'
@@ -80,79 +79,82 @@ dependencies {
         exclude module: 'support-annotations'
         exclude module: 'design'
     }
-    androidTestCompile 'com.android.support.test:runner:0.5'
-    androidTestCompile('com.android.support.test:rules:0.5') {
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation('com.android.support.test:rules:1.0.1') {
         exclude module: 'support-annotations'
     }
 
-    compile 'com.squareup:otto:1.3.8'
+    implementation 'com.squareup:otto:1.3.8'
 
+    implementation 'com.jakewharton.rxbinding:rxbinding:1.0.0'
     /*
-                                            compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
-                                            */
-    compile 'com.jakewharton.rxbinding:rxbinding:1.0.0'
-    compile 'com.google.firebase:firebase-messaging:10.0.1'
-    compile 'com.google.firebase:firebase-core:10.0.1'
-    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
-    compile 'com.google.code.gson:gson:2.7'
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    implementation 'com.google.firebase:firebase-messaging:15.0.0'
+    implementation 'com.google.firebase:firebase-core:10.0.1'
+    */
+    implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.9.1@aar'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'org.apache.commons:commons-lang3:3.4'
 
     /**
      * Dagger dependencies
      * https://github.com/codepath/android_guides/wiki/Dependency-Injection-with-Dagger-2
      */
-    compile 'com.google.dagger:dagger:2.11'
+    implementation 'com.google.dagger:dagger:2.11'
     annotationProcessor "com.google.dagger:dagger-compiler:2.11"
-    provided 'javax.annotation:jsr250-api:1.0'
+    compileOnly 'javax.annotation:jsr250-api:1.0'
 
     /**
      * GREENBOT EVENTBUS
      */
-    compile 'org.greenrobot:eventbus:3.0.0'
+    implementation 'org.greenrobot:eventbus:3.0.0'
 
     /**
      * SHARED PREF LIBRARY
      */
-    compile 'com.pixplicity.easyprefs:library:1.8.1@aar'
+    implementation 'com.pixplicity.easyprefs:library:1.8.1@aar'
 
     /**
      * FRESCO LIBRARY
      */
-    compile 'com.facebook.fresco:fresco:1.0.1'
-    compile 'com.facebook.fresco:animated-base-support:1.0.1'
-    compile 'com.facebook.fresco:animated-gif:1.0.1'
-    compile 'com.facebook.fresco:animated-webp:1.0.1'
-    compile 'com.facebook.fresco:webpsupport:1.0.1'
-    compile 'com.facebook.fresco:webpsupport:1.0.1'
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.2.2'
-    testCompile('org.robolectric:shadows-support-v4:3.0') {
+    implementation 'com.facebook.fresco:fresco:1.3.0'
+    implementation 'com.facebook.fresco:animated-base-support:1.0.1'
+    implementation 'com.facebook.fresco:animated-gif:1.3.0'
+    implementation 'com.facebook.fresco:animated-webp:1.3.0'
+    implementation 'com.facebook.fresco:webpsupport:1.3.0'
+    implementation 'com.facebook.fresco:webpsupport:1.3.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.robolectric:robolectric:3.2.2'
+    testImplementation('org.robolectric:shadows-support-v4:3.0') {
         exclude module: 'support-v4'
     }
-    compile 'com.google.android.gms:play-services-analytics:10.0.1'
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
-    testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
+
+    implementation 'com.google.android.gms:play-services-analytics:15.0.0'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+    testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
 
     /**
      * ANIMATION LIBRARY
      */
-    compile "com.android.support:support-compat:$android_support_version"
-    compile 'com.daimajia.easing:library:2.0@aar'
-    compile 'com.daimajia.androidanimations:library:2.2@aar'
-    testCompile 'org.mockito:mockito-core:2.+'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "com.android.support:support-compat:$android_support_version"
+    implementation 'com.daimajia.easing:library:2.0@aar'
+    implementation 'com.daimajia.androidanimations:library:2.2@aar'
+    testImplementation 'org.mockito:mockito-core:2.+'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     /**
      * see: http://www.johnmullins.co/blog/2015/02/15/beginners-guide-to-using-mockito-and-powermockito-to-unit-test-java/
-     testCompile group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
-     testCompile "org.powermock:powermock-mockito-release-full:1.6.1"
+     testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.9.5'
+     testImplementation "org.powermock:powermock-mockito-release-full:1.6.1"
      */
 
-    compile 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation "com.android.support:support-core-utils:27.1.1"
 
-    
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
+
 }
 repositories {
     mavenCentral()

@@ -82,6 +82,7 @@
     <string name="title_activity_psi_map">PsiMapActivity</string>
 
     <string name="something_went_wrong">Something went wrong. Please try again.</string>
+    <string name="not_available_region_data">PSI region data not available. Please try again later.</string>
     <string name="google_maps_key">AIzaSyBOEKcFKSFOexwrl79ARCATuPn6k6fZGQQ</string>
 
 </resources>

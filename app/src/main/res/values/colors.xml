@@ -11,4 +11,5 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="dialog_background">#F1F5F7</color>
     <color name="dialog_text">#ADB9C3</color>
+    <color name="light_blue_600">#5586C2</color>
 </resources>

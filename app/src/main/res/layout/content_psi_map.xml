@@ -4,6 +4,5 @@
     android:id="@+id/fragment"
     android:name="com.hilfritz.mvp.ui.psi.PsiMapActivityFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_height="wrap_content"
     tools:layout="@layout/fragment_psi_map" />

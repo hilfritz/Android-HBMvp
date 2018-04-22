@@ -35,7 +35,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.android.schedulers.AndroidSchedulers;
-import timber.log.Timber;
+
 
 public class PlaceListFragment extends BaseFragment implements PlaceListViewInterface {
     private static final String TAG = "PlaceListFragment";
@@ -56,7 +56,7 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApplication)getActivity().getApplication()).getAppComponent().inject(this);
-        Timber.d("onCreate:");
+
     }
 
 
@@ -64,7 +64,7 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_place_list, container, false);
-        Timber.d("onCreateView:");
+
         ButterKnife.bind(this, view);
         presenter.setApiManager(apiManager);
         presenter.__init((BaseActivity) getActivity(), this, AndroidSchedulers.mainThread());
@@ -74,7 +74,7 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Timber.d("onViewCreated: ");
+
         presenter.__populate();
     }
 
@@ -82,14 +82,14 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Timber.d("onDestroy: ");
+
         presenter.__onDestroy();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Timber.d("onResume: ");
+
         presenter.__onResume();
     }
 
@@ -97,7 +97,7 @@ public class PlaceListFragment extends BaseFragment implements PlaceListViewInte
     @Override
     public void onPause() {
         super.onPause();
-        Timber.d("onPause: ");
+
         presenter.__onPause();
     }
 

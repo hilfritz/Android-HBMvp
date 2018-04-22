@@ -4,6 +4,7 @@ package com.hilfritz.mvp.api.psi.pojo;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.hilfritz.mvp.ui.psi.helper.ReadingsContainer;
 
 public class PsiPojo {
 
