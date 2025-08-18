@@ -24,6 +24,6 @@ public class ExampleInstrumentationTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.hilfritz.bootstrap", appContext.getPackageName());
+        assertEquals("com.hilfritz.mvp", appContext.getPackageName());
     }
 }

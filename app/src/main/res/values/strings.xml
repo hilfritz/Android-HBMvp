@@ -24,6 +24,8 @@
     <string name="label_company">Company</string>
     <string name="label_name">Name</string>
     <string name="label_loading">Loading...</string>
+    <string name="label_no_internet">No internet connection...</string>
+    <string name="label_no_data">Yikes, sorry there are no places available to view right now.</string>
 
     <string name="owner">Hilfritz P. Camallere
         camallere_h@yahoo.com.ph

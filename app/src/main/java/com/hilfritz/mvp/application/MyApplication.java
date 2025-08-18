@@ -1,6 +1,8 @@
 package com.hilfritz.mvp.application;
 
 import android.app.Application;
+import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.hilfritz.mvp.BuildConfig;
@@ -74,5 +76,9 @@ public class MyApplication extends Application {
         return appComponent;
     }
 
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
 }

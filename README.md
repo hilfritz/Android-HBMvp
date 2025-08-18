@@ -77,4 +77,4 @@ This project is licensed under the MIT License.
 Feel free to use it for learning, experimenting, or as a boilerplate for your own MVP projects.
 
 ---
-💡 *Crafted with clean architecture principles — perfect for recruiters, interview prep, or Android devs exploring MVP.*
+💡 *Crafted with clean architecture principles.*
